@@ -84,11 +84,11 @@
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::collections</span>::{<span class="ident">Single</span>, <span class="ident">Array</span>, <span class="ident">MaskedArray</span>};
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Tag1</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Tag1</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>: <span class="lifetime">&#39;static</span> {
     <span class="kw">type</span> <span class="ident">Bind</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Tag2</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Tag2</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>: <span class="lifetime">&#39;static</span> {
     <span class="kw">type</span> <span class="ident">Bind</span>;
 }
 

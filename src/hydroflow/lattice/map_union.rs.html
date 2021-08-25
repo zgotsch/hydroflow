@@ -295,7 +295,7 @@
     <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span>(<span class="ident">Tag</span>, <span class="ident">K</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Tag</span>: <span class="ident">MapTag</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">B::Repr</span><span class="op">&gt;</span>, <span class="ident">K</span>, <span class="ident">B</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> <span class="ident">LatticeRepr</span> <span class="kw">for</span> <span class="ident">MapUnionRepr</span><span class="op">&lt;</span><span class="ident">Tag</span>, <span class="ident">K</span>, <span class="ident">B</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Tag</span>: <span class="ident">MapTag</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">B::Repr</span><span class="op">&gt;</span>, <span class="ident">K</span>: <span class="lifetime">&#39;static</span>, <span class="ident">B</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> <span class="ident">LatticeRepr</span> <span class="kw">for</span> <span class="ident">MapUnionRepr</span><span class="op">&lt;</span><span class="ident">Tag</span>, <span class="ident">K</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Tag::Bind</span>: <span class="ident">Clone</span>,
 {

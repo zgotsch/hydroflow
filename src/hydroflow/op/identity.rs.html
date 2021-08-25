@@ -23,7 +23,6 @@
 <span id="23">23</span>
 <span id="24">24</span>
 <span id="25">25</span>
-<span id="26">26</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Cumul</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
@@ -45,8 +44,7 @@
     <span class="kw">type</span> <span class="ident">LatReprDeltaOut</span> <span class="op">=</span> <span class="ident">Lr</span>;
 
     <span class="kw">fn</span> <span class="ident">get_delta</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">_state</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;h</span> <span class="kw-2">mut</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::State</span><span class="op">&gt;</span>, <span class="ident">element</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaIn</span><span class="op">&gt;</span><span class="op">&gt;</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaOut</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    {
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaOut</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="ident">element</span>
     }
 }

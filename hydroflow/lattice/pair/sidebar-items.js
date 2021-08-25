@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Pair",""],["PairRepr",""]]});
+initSidebarItems({"struct":[["Pair",""],["PairEitherRepr",""],["PairRepr",""]]});

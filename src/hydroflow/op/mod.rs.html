@@ -43,7 +43,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OpDelta</span>: <span class="ident">Op</span> {
-    <span class="kw">type</span> <span class="ident">LatReprDeltaIn</span>: <span class="ident">LatticeRepr</span>;
+    <span class="kw">type</span> <span class="ident">LatReprDeltaIn</span>:  <span class="ident">LatticeRepr</span>;
     <span class="kw">type</span> <span class="ident">LatReprDeltaOut</span>: <span class="ident">LatticeRepr</span><span class="op">&lt;</span><span class="ident">Lattice</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::Lat</span><span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
