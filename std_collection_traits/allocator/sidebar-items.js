@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["AllocatorAware","Types that have allocator."],["AllocatorCapacityConstructible",""],["AllocatorConstructible",""]]});

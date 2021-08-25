@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["CapacityAware","Types that have capacity."],["CapacityConstructible","Collections that can construct `Self` with capacity."],["CapacityReserve","Collections that can reserve capacity."],["CapacityReserveExact","Collections that can reserve exact capacity."],["CapacityShrink","Collections that can shrink based on actual elements."]]});
