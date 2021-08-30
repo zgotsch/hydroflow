@@ -9,6 +9,7 @@ pub mod dom_pair;
 pub mod bottom;
 pub mod top;
 pub mod null;
+pub mod helper;
 
 pub trait Lattice {}
 

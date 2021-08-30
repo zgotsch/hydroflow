@@ -88,11 +88,11 @@ pub struct GraphRepr {
     ops: HashMap<OperatorId, Rc<dyn OpPtr<LatReprDeltaIn = NullRepr>>>, // TODO: change equality check.
 }
 
-impl Merge<GraphLatRepr> for GraphLatRepr {
-    fn merge(this: &mut Self::Repr, delta: Self::Repr) -> bool {
-        <MapUnionRepr::<tag::HASH_MAP, _, _>>::merge(&mut this.ops, delta.ops)
-    }
-}
+// impl Merge<GraphLatRepr> for GraphLatRepr {
+//     fn merge(this: &mut Self::Repr, delta: Self::Repr) -> bool {
+//         <MapUnionRepr::<tag::HASH_MAP, _, _>>::merge(&mut this.ops, delta.ops)
+//     }
+//}
 
 
 
