@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["StaticRc","A compile-time reference-counted pointer."]]});
