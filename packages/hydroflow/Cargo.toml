@@ -7,6 +7,7 @@ edition = "2018"
 
 [dependencies]
 either = "1.6"
+hydroflow_macros = { path = "../hydroflow_macros" }
 ref-cast = "1.0"
 serde = "1.0"
 static_assertions = "1.1.0"

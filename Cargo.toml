@@ -1,5 +1,5 @@
 [workspace]
 members = [
     "packages/hydroflow",
-    "packages/hydroflow-macros",
+    "packages/hydroflow_macros",
 ]

@@ -16,3 +16,5 @@ pub mod func;
 pub mod op;
 
 pub mod graph;
+
+pub mod derive_test;
