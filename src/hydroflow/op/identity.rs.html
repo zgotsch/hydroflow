@@ -23,12 +23,14 @@
 <span id="23">23</span>
 <span id="24">24</span>
 <span id="25">25</span>
+<span id="26">26</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Cumul</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::null::NullRepr</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Op</span>, <span class="ident">OpDelta</span>};
 
+<span class="comment">// TODO: this should be called ingress or PRIMER something.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> {
     <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span>,
 }

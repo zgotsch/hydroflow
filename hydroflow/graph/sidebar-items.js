@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Graph",""],["GraphLatRepr",""]],"struct":[["DynSplitPoint",""],["GraphRepr",""],["UniqueTag",""]],"trait":[["OpPtr",""],["OpWrapper","Specifies operator egress."]]});
+initSidebarItems({"enum":[["Graph",""],["GraphLatRepr",""]],"struct":[["DynSplitPoint",""],["GraphRepr",""],["UniqueTag",""]],"trait":[["CompEdge",""],["OpWrapper","Specifies operator egress."]]});

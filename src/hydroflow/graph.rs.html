@@ -297,6 +297,50 @@
 <span id="297">297</span>
 <span id="298">298</span>
 <span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::rc::Rc</span>;
@@ -305,10 +349,10 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Lattice</span>, <span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnionRepr</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::pair::PairRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::null::NullRepr</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::ord::MaxRepr</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::bottom::BottomRepr</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Cumul</span>, <span class="ident">Delta</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op::OpDelta</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op</span>::{<span class="ident">OpDelta</span>, <span class="ident">OpCumul</span>};
 
 
 
@@ -329,49 +373,53 @@
     <span class="kw">fn</span> <span class="ident">get_delta</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;h</span> <span class="kw-2">mut</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::State</span><span class="op">&gt;</span>, <span class="ident">element</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaIn</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Feedback</span>;
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DynSplitPoint</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpDelta</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DynSplitPoint</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpDelta</span> <span class="op">+</span> <span class="ident">OpCumul</span><span class="op">&gt;</span> {
     <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span>,
 }
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpDelta</span><span class="op">&gt;</span> <span class="ident">OpWrapper</span> <span class="kw">for</span> <span class="ident">DynSplitPoint</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpDelta</span> <span class="op">+</span> <span class="ident">OpCumul</span><span class="op">&gt;</span> <span class="ident">OpWrapper</span> <span class="kw">for</span> <span class="ident">DynSplitPoint</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">O::LatReprDeltaIn</span>;
 
     <span class="comment">// Make the RHS OPTIONAL - via BottomRepr. -- RUNTIME PANIC IF None.</span>
     <span class="comment">// None is how represents a disconnected piece of the graph.</span>
     <span class="kw">type</span> <span class="ident">State</span> <span class="op">=</span> <span class="ident">PairRepr</span><span class="op">&lt;</span>
-        <span class="ident">SetUnionRepr</span><span class="op">&lt;</span><span class="ident">tag::HASH_SET</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">OpPtr</span><span class="op">&lt;</span><span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">O::LatReprDeltaOut</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="comment">/* TODO: change equality check */</span>,
+        <span class="ident">SetUnionRepr</span><span class="op">&lt;</span><span class="ident">tag::HASH_SET</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">CompEdge</span><span class="op">&lt;</span><span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">O::LatReprDeltaOut</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="comment">/* TODO: change equality check */</span>,
         <span class="ident">BottomRepr</span><span class="op">&lt;</span><span class="ident">O::State</span><span class="op">&gt;</span>
     <span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">fn</span> <span class="ident">get_delta</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;h</span> <span class="kw-2">mut</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::State</span><span class="op">&gt;</span>, <span class="ident">element</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaIn</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Feedback</span> {
         <span class="kw">let</span> (<span class="ident">state_ptrs</span>, <span class="ident">state_prec</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">split_mut</span>();
-        <span class="comment">// Warning: CAN PANIC!!</span>
-        <span class="kw">let</span> <span class="ident">state_prec</span> <span class="op">=</span> <span class="ident">state_prec</span>.<span class="ident">unwrap_mut</span>();
+
+        <span class="comment">// REVEAL?</span>
+        <span class="kw">let</span> <span class="ident">state_prec</span> <span class="op">=</span> <span class="ident">state_prec</span>.<span class="ident">reveal_ok_or_mut</span>(<span class="string">&quot;Cannot run disconnected component!&quot;</span>.<span class="ident">to_owned</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">element</span> <span class="op">=</span> <span class="ident">O::get_delta</span>(<span class="ident">state_prec</span>, <span class="ident">element</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(());
         <span class="kw">for</span> <span class="ident">next_ptr</span> <span class="kw">in</span> <span class="ident">state_ptrs</span>.<span class="ident">reveal_ref</span>() { <span class="comment">// REVEAL!</span>
-            <span class="kw">let</span> <span class="ident">next_result</span> <span class="op">=</span> <span class="ident">next_ptr</span>.<span class="ident">push</span>(<span class="ident">element</span>.<span class="ident">clone</span>());
-            <span class="comment">// Propegate error message. ?</span>
-            <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">and</span>(<span class="ident">next_result</span>);
+            <span class="ident">next_ptr</span>.<span class="ident">push</span>(<span class="ident">element</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
         }
-        <span class="kw">return</span> <span class="ident">result</span>;
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
     }
 }
 
 
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OpPtr</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">CompEdge</span> {
     <span class="kw">type</span> <span class="ident">LatReprDeltaIn</span>: <span class="ident">LatticeRepr</span>;
+
+    <span class="kw">fn</span> <span class="ident">needs_cumul</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident">MaxRepr</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">push</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">element</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaIn</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span>;
 }
 
-<span class="kw">struct</span> <span class="ident">DynSplitOpPtr</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpWrapper</span><span class="op">&gt;</span> {
-    <span class="ident">state</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident">O::State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="kw">struct</span> <span class="ident">DynSplitCompEdge</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpWrapper</span><span class="op">&gt;</span> {
+    <span class="ident">state</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident">O::State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpWrapper</span><span class="op">&gt;</span> <span class="ident">OpPtr</span> <span class="kw">for</span> <span class="ident">DynSplitOpPtr</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">OpWrapper</span><span class="op">&gt;</span> <span class="ident">CompEdge</span> <span class="kw">for</span> <span class="ident">DynSplitCompEdge</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">O::LatReprDeltaIn</span>;
+
+    <span class="kw">fn</span> <span class="ident">needs_cumul</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident">MaxRepr</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        
+    }
 
     <span class="kw">fn</span> <span class="ident">push</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">element</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatReprDeltaIn</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="ident">O::get_delta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">borrow_mut</span>(), <span class="ident">element</span>)
@@ -388,7 +436,10 @@
     <span class="kw">type</span> <span class="ident">Repr</span> <span class="op">=</span> <span class="ident">GraphRepr</span>;
 }
 
-<span class="kw">type</span> <span class="ident">GraphLatReprInternal</span> <span class="op">=</span> <span class="ident">SetUnionRepr</span>::<span class="op">&lt;</span><span class="ident">tag::HASH_SET</span>, <span class="ident">UniqueTag</span><span class="op">&lt;</span><span class="ident">OperatorId</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">OpPtr</span><span class="op">&lt;</span><span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">NullRepr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">GraphLatReprInternal</span> <span class="op">=</span> <span class="ident">SetUnionRepr</span>::<span class="op">&lt;</span>
+    <span class="ident">tag::HASH_SET</span>,
+    <span class="ident">UniqueTag</span><span class="op">&lt;</span><span class="ident">OperatorId</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">CompEdge</span><span class="op">&lt;</span><span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">MaxRepr</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="comment">// TODO: &lt;-- This lattice type should encompass the types of all egress.</span>
+<span class="op">&gt;</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GraphRepr</span> {
@@ -401,6 +452,43 @@
     }
 }
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+
+    <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op::identity::Identity</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op::debug::Debug</span> <span class="kw">as</span> <span class="ident">DebugOp</span>;
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_basic</span>() {
+        <span class="kw">type</span> <span class="ident">From_LatRepr</span> <span class="op">=</span> <span class="ident">MaxRepr</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
+        <span class="kw">type</span> <span class="ident">From_Pipeline</span> <span class="op">=</span> <span class="ident">DebugOp</span><span class="op">&lt;</span><span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">From_LatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+        <span class="kw">type</span> <span class="ident">From_WrapperEdge</span> <span class="op">=</span> <span class="ident">DynSplitPoint</span><span class="op">&lt;</span><span class="ident">From_Pipeline</span><span class="op">&gt;</span>;
+
+        <span class="kw">type</span> <span class="ident">From_StateLatRepr</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">From_WrapperEdge</span> <span class="kw">as</span> <span class="ident">OpWrapper</span><span class="op">&gt;</span><span class="ident">::State</span>;
+
+        <span class="kw">let</span> <span class="ident">from_state</span>: <span class="op">&lt;</span><span class="ident">From_StateLatRepr</span> <span class="kw">as</span> <span class="ident">LatticeRepr</span><span class="op">&gt;</span><span class="ident">::Repr</span> <span class="op">=</span> (<span class="ident">HashSet::new</span>(), <span class="prelude-val">Some</span>(()));
+
+        <span class="kw">let</span> <span class="ident">from_ptr_edge_0</span>: <span class="ident">DynSplitCompEdge</span><span class="op">&lt;</span><span class="ident">From_WrapperEdge</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">DynSplitCompEdge</span> {
+            <span class="ident">state</span>: <span class="ident">RefCell::new</span>(<span class="ident">Hide::new</span>(<span class="ident">from_state</span>)),
+        };
+        <span class="comment">// Keep an RC around so we can push into it.</span>
+        <span class="comment">// In the future we want the Graph to do this somehow.</span>
+        <span class="comment">// Such as having the components generate their own inputs when you poke them?</span>
+        <span class="kw">let</span> <span class="ident">from_ptr_edge_0</span> <span class="op">=</span> <span class="ident">Rc::new</span>(<span class="ident">from_ptr_edge_0</span>);
+
+        <span class="kw">let</span> <span class="ident">tag_edge_to_0</span>: <span class="ident">UniqueTag</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">CompEdge</span><span class="op">&lt;</span><span class="ident">LatReprDeltaIn</span> <span class="op">=</span> <span class="ident">MaxRepr</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">UniqueTag</span>(
+            <span class="string">&quot;my_og_edge&quot;</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">from_ptr_edge_0</span>.<span class="ident">clone</span>(),
+        );
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">graph_state</span>: <span class="op">&lt;</span><span class="ident">GraphLatReprInternal</span> <span class="kw">as</span> <span class="ident">LatticeRepr</span><span class="op">&gt;</span><span class="ident">::Repr</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
+        <span class="ident">graph_state</span>.<span class="ident">insert</span>(<span class="ident">tag_edge_to_0</span>);
+
+
+    }
+}
 
 
 
