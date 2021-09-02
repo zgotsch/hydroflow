@@ -1,14 +1,18 @@
 use hydroflow_macros::LatticeRepr;
 
-use crate::lattice::{LatticeRepr, Merge};
+use crate::lattice::{Lattice, LatticeRepr, Merge};
 
 #[allow(dead_code)]
 #[derive(LatticeRepr)]
-pub struct MyLatRepr<Lr, Lr2>
+pub struct MyLatRepr<L, Lr, Lr2>
 where
-    Lr: LatticeRepr + Merge<Lr2>,
-    Lr2: LatticeRepr<Lattice = Lr::Lattice>,
+    L: Lattice,
+    Lr: LatticeRepr<Lattice = L> + Merge<Lr2>,
+    Lr2: LatticeRepr<Lattice = L>,
 {
     null: crate::lattice::null::NullRepr,
     generic: Lr,
+
+    #[lr_ignore]
+    _phantom: std::marker::PhantomData<Lr2>
 }
