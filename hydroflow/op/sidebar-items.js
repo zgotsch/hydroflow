@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["identity",""],["split_binary",""],["state_merge",""]],"trait":[["Op",""],["OpCumul",""],["OpDelta",""]]});
+initSidebarItems({"mod":[["debug",""],["identity",""],["split_binary",""],["state_merge",""]],"trait":[["Op",""],["OpCumul",""],["OpDelta",""]]});
