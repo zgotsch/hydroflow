@@ -4,7 +4,7 @@ use crate::lattice::{Lattice, LatticeRepr, Merge};
 
 #[allow(dead_code)]
 #[derive(LatticeRepr)]
-pub struct MyLatRepr<L, Lr, Lr2>
+pub struct MyLatRepr<L: 'static, Lr, Lr2>
 where
     L: Lattice,
     Lr: LatticeRepr<Lattice = L> + Merge<Lr2>,

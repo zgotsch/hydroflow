@@ -31,20 +31,20 @@ fn derive_latticerepr_internal(input: DeriveInput) -> syn::Result<proc_macro2::T
     };
     let repr_fields = fields
         .iter()
-        // .filter(|f| {
-        //     f.attrs.iter().any(|a| {
-        //         a.parse_meta()
-        //             .ok()
-        //             .map(|meta| match meta {
-        //                 Meta::Path(name) =>
-        //                     name.get_ident()
-        //                         .map(|ident| "lr_ignore" != ident.to_string())
-        //                         .unwrap_or(true),
-        //                 _ => true,
-        //             })
-        //             .unwrap_or(true)
-        //     })
-        // })
+        .filter(|f| {
+            f.attrs.iter().all(|a| {
+                a.parse_meta()
+                    .ok()
+                    .map(|meta| match meta {
+                        Meta::Path(name) =>
+                            name.get_ident()
+                                .map(|ident| "lr_ignore" != ident.to_string())
+                                .unwrap_or(true),
+                        _ => true,
+                    })
+                    .unwrap_or(true)
+            })
+        })
         .map(|f| {
             // Interpolation only works for variables, not arbitrary expressions.
             // That's why we need to move these fields into local variables first
