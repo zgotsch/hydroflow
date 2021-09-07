@@ -1,6 +1,6 @@
 var N = null;var sourcesIndex = {};
 sourcesIndex["either"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["hydroflow"] = {"name":"","dirs":[{"name":"lattice","files":["bottom.rs","dom_pair.rs","map_union.rs","mod.rs","null.rs","ord.rs","pair.rs","set_union.rs","top.rs"]},{"name":"op","files":["debug.rs","identity.rs","mod.rs","split_binary.rs","state_merge.rs"]}],"files":["collections.rs","func.rs","graph.rs","hide.rs","lib.rs","tag.rs"]};
+sourcesIndex["hydroflow"] = {"name":"","dirs":[{"name":"lattice","files":["bottom.rs","dom_pair.rs","map_union.rs","mod.rs","null.rs","ord.rs","pair.rs","set_union.rs","top.rs"]},{"name":"op","files":["debug.rs","identity.rs","mod.rs","split_binary.rs","state_merge.rs"]}],"files":["collections.rs","eight_traits.rs","func.rs","graph.rs","hide.rs","lib.rs","tag.rs"]};
 sourcesIndex["proc_macro2"] = {"name":"","files":["detection.rs","fallback.rs","lib.rs","marker.rs","parse.rs","wrapper.rs"]};
 sourcesIndex["quote"] = {"name":"","files":["ext.rs","format.rs","ident_fragment.rs","lib.rs","runtime.rs","spanned.rs","to_tokens.rs"]};
 sourcesIndex["ref_cast"] = {"name":"","files":["layout.rs","lib.rs","trivial.rs"]};
