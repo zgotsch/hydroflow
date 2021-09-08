@@ -131,14 +131,16 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
+<span id="134">134</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpMeta</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OpProps</span> {
     <span class="kw">pub</span> <span class="ident">complete</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">time_ordered</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">lattice_ordered</span>: <span class="ident">bool</span>,
 }
-<span class="kw">impl</span> <span class="ident">OpMeta</span> {
+
+<span class="kw">impl</span> <span class="ident">OpProps</span> {
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">complete</span>: <span class="bool-val">false</span>,
@@ -170,12 +172,12 @@
             <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;\n- LATTICE_ORDERED: &quot;</span>]</span>
             <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span>)]</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">trivial_bounds</span>)]</span>
-            <span class="kw">impl</span> <span class="ident">Op</span><span class="op">&lt;</span>{<span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>
+            <span class="kw">impl</span> <span class="ident">Op</span><span class="op">&lt;</span>{<span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>
             <span class="kw">where</span>
-                <span class="self">Self</span>: <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpMeta::combine</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mapper</span>(<span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }), <span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> })}<span class="op">&gt;</span>,
+                <span class="self">Self</span>: <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpProps::combine</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mapper</span>(<span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }), <span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> })}<span class="op">&gt;</span>,
             {
                 <span class="kw">fn</span> <span class="ident">get</span>() {
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="kw">as</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpMeta::combine</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mapper</span>(<span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }), <span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> })}<span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::get</span>()
+                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="kw">as</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpProps::combine</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mapper</span>(<span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> }), <span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>, <span class="ident">time_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">b</span>, <span class="ident">lattice_ordered</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span> })}<span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::get</span>()
                 }
             }
         )<span class="op">*</span>
@@ -199,11 +201,11 @@
     };
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OpImpl</span><span class="op">&lt;</span><span class="kw">const</span> <span class="ident">META</span>: <span class="ident">OpMeta</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OpImpl</span><span class="op">&lt;</span><span class="kw">const</span> <span class="ident">META</span>: <span class="ident">OpProps</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">get</span>() {}
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Op</span><span class="op">&lt;</span><span class="kw">const</span> <span class="ident">META</span>: <span class="ident">OpMeta</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Op</span><span class="op">&lt;</span><span class="kw">const</span> <span class="ident">META</span>: <span class="ident">OpProps</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">get</span>() {}
 }
 
@@ -212,17 +214,17 @@
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MySpookyOp</span> {}
 
-<span class="kw">impl</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="bool-val">true</span>, ..<span class="ident">OpMeta::default</span>() }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MySpookyOp</span> {
+<span class="kw">impl</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="bool-val">true</span>, ..<span class="ident">OpProps::default</span>() }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MySpookyOp</span> {
     <span class="kw">fn</span> <span class="ident">get</span>() {}
 }
-<span class="kw">impl</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpMeta</span> { <span class="ident">time_ordered</span>: <span class="bool-val">true</span>, ..<span class="ident">OpMeta::default</span>() }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MySpookyOp</span> {
+<span class="kw">impl</span> <span class="ident">OpImpl</span><span class="op">&lt;</span>{<span class="ident">OpProps</span> { <span class="ident">time_ordered</span>: <span class="bool-val">true</span>, ..<span class="ident">OpProps::default</span>() }}<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MySpookyOp</span> {
     <span class="kw">fn</span> <span class="ident">get</span>() {}
 }
 
-<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">spooky_disambig</span>(<span class="ident">meta</span>: <span class="ident">OpMeta</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OpMeta</span> {
+<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">spooky_disambig</span>(<span class="ident">meta</span>: <span class="ident">OpProps</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OpProps</span> {
     <span class="kw">match</span> <span class="ident">meta</span> {
-        <span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="bool-val">false</span>, <span class="ident">time_ordered</span>: <span class="bool-val">false</span>, <span class="ident">lattice_ordered</span>: <span class="bool-val">false</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OpMeta</span> { <span class="ident">complete</span>: <span class="bool-val">true</span>, ..<span class="ident">OpMeta::default</span>() },
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OpMeta::default</span>(),
+        <span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="bool-val">false</span>, <span class="ident">time_ordered</span>: <span class="bool-val">false</span>, <span class="ident">lattice_ordered</span>: <span class="bool-val">false</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OpProps</span> { <span class="ident">complete</span>: <span class="bool-val">true</span>, ..<span class="ident">OpProps::default</span>() },
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OpProps::default</span>(),
     }
 }
 
