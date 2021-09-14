@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["MorphismAsMonotone",""],["SplitBinaryMorphismAsMonotone",""]],"trait":[["Monotone",""],["Morphism",""],["SplitBinaryMorphism",""]]});
+initSidebarItems({"struct":[["MorphismAsMonotone",""]],"trait":[["Monotone",""],["Morphism",""]]});

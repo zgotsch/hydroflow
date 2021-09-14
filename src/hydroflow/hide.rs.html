@@ -69,9 +69,18 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident">ref_cast::RefCast</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::props::OpProps</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Qualifier</span> {}
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Delta</span> {}
@@ -81,17 +90,24 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">RefCast</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span>, <span class="ident">Lr</span>: <span class="ident">LatticeRepr</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>, <span class="kw">const</span> <span class="ident">PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span>
 {
     <span class="ident">value</span>: <span class="ident">Lr::Repr</span>,
-    <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">Y</span><span class="op">&gt;</span>,
+    <span class="comment">// _phantom: std::marker::PhantomData,</span>
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span>, <span class="ident">Lr</span>: <span class="ident">LatticeRepr</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident">Lr</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">PROPS_into_delta</span>(<span class="ident">props</span>: <span class="ident">OpProps</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OpProps</span> {
+    <span class="ident">OpProps</span> {
+        <span class="ident">lattice_ordered</span>: <span class="bool-val">true</span>,
+        ..<span class="ident">props</span>
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>, <span class="kw">const</span> <span class="ident">PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, <span class="ident">PROPS</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">value</span>: <span class="ident">Lr::Repr</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">value</span>,
-            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>,
+            <span class="comment">// _phantom: std::marker::PhantomData,</span>
         }
     }
 
@@ -107,16 +123,16 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">value</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_delta</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident">Lr</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_delta</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, {<span class="ident">PROPS_into_delta</span>(<span class="ident">PROPS</span>)}<span class="op">&gt;</span> {
         <span class="ident">Hide::new</span>(<span class="self">self</span>.<span class="ident">value</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_qualifier_reveal</span><span class="op">&lt;</span><span class="ident">Z</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Z</span>, <span class="ident">Lr</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_qualifier_reveal</span><span class="op">&lt;</span><span class="kw">const</span> <span class="ident">NEW_PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, <span class="ident">NEW_PROPS</span><span class="op">&gt;</span> {
         <span class="ident">Hide::new</span>(<span class="self">self</span>.<span class="ident">value</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span>, <span class="ident">Lr</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident">Lr</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span>, <span class="kw">const</span> <span class="ident">PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, <span class="ident">PROPS</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reveal_cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">this</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Lr::Repr</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">this</span> {
             <span class="ident">Cow::Owned</span>(<span class="ident">hide</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow::Owned</span>(<span class="ident">hide</span>.<span class="ident">into_reveal</span>()),
@@ -124,7 +140,7 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_delta_cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">this</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_delta_cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">this</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, {<span class="ident">PROPS_into_delta</span>(<span class="ident">PROPS</span>)}<span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">this</span> {
             <span class="ident">Cow::Owned</span>(<span class="ident">hide</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow::Owned</span>(<span class="ident">hide</span>.<span class="ident">into_delta</span>()),
             <span class="ident">Cow::Borrowed</span>(<span class="ident">hide</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow::Borrowed</span>(<span class="ident">Hide::ref_cast</span>(<span class="ident">hide</span>.<span class="ident">reveal_ref</span>())),
@@ -132,11 +148,11 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Y</span>: <span class="ident">Qualifier</span>, <span class="ident">Lr</span>: <span class="ident">LatticeRepr</span> <span class="op">+</span> <span class="lifetime">&#39;h</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident">Lr</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span>, <span class="kw">const</span> <span class="ident">PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Lr</span>, <span class="ident">PROPS</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">value</span>: <span class="self">self</span>.<span class="ident">value</span>.<span class="ident">clone</span>(),
-            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>,
+            <span class="comment">// _phantom: std::marker::PhantomData,</span>
         }
     }
 }

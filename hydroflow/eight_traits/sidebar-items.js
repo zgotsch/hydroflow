@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["MySpookyOp",""]],"struct":[["OpProps",""]],"trait":[["Op",""],["OpImpl",""]]});

@@ -47,21 +47,32 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::pair::PairRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Qualifier</span>, <span class="ident">Cumul</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::props</span>::{<span class="ident">OpProps</span>, <span class="ident">require_lattice_ordered</span>};
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Monotone</span> {
     <span class="kw">type</span> <span class="ident">InLatRepr</span>:  <span class="ident">LatticeRepr</span>;
     <span class="kw">type</span> <span class="ident">OutLatRepr</span>: <span class="ident">LatticeRepr</span>;
-    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::InLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="kw">const</span> <span class="ident">COMPLETE</span>: <span class="ident">bool</span>, <span class="kw">const</span> <span class="ident">TIME_ORDERED</span>: <span class="ident">bool</span><span class="op">&gt;</span>
+        (<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InLatRepr</span>, {<span class="ident">require_lattice_ordered</span>(<span class="ident">COMPLETE</span>, <span class="ident">TIME_ORDERED</span>)}<span class="op">&gt;</span><span class="op">&gt;</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::OutLatRepr</span>, {<span class="ident">require_lattice_ordered</span>(<span class="ident">COMPLETE</span>, <span class="ident">TIME_ORDERED</span>)}<span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Morphism</span> {
     <span class="kw">type</span> <span class="ident">InLatRepr</span>:  <span class="ident">LatticeRepr</span>;
     <span class="kw">type</span> <span class="ident">OutLatRepr</span>: <span class="ident">LatticeRepr</span>;
-    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Y</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="kw">const</span> <span class="ident">PROPS</span>: <span class="ident">OpProps</span><span class="op">&gt;</span>
+        (<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InLatRepr</span>, <span class="ident">PROPS</span><span class="op">&gt;</span><span class="op">&gt;</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::OutLatRepr</span>, <span class="ident">PROPS</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 }
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MorphismAsMonotone</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">Morphism</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> {
     <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
@@ -69,33 +80,36 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">Morphism</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">Monotone</span> <span class="kw">for</span> <span class="ident">MorphismAsMonotone</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">InLatRepr</span>  <span class="op">=</span> <span class="ident">F::InLatRepr</span>;
     <span class="kw">type</span> <span class="ident">OutLatRepr</span> <span class="op">=</span> <span class="ident">F::OutLatRepr</span>;
-    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::InLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="kw">const</span> <span class="ident">COMPLETE</span>: <span class="ident">bool</span>, <span class="kw">const</span> <span class="ident">TIME_ORDERED</span>: <span class="ident">bool</span><span class="op">&gt;</span>
+        (<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::InLatRepr</span>, {<span class="ident">require_lattice_ordered</span>(<span class="ident">COMPLETE</span>, <span class="ident">TIME_ORDERED</span>)}<span class="op">&gt;</span><span class="op">&gt;</span>)
+        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::OutLatRepr</span>, {<span class="ident">require_lattice_ordered</span>(<span class="ident">COMPLETE</span>, <span class="ident">TIME_ORDERED</span>)}<span class="op">&gt;</span><span class="op">&gt;</span>
+    {
         <span class="ident">F::call</span>(<span class="ident">item</span>)
     }
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SplitBinaryMorphism</span> {
-    <span class="kw">type</span> <span class="ident">InLatReprA</span>: <span class="ident">LatticeRepr</span>;
-    <span class="kw">type</span> <span class="ident">InLatReprB</span>: <span class="ident">LatticeRepr</span>;
-    <span class="kw">type</span> <span class="ident">OutLatRepr</span>: <span class="ident">LatticeRepr</span>;
+<span class="comment">// pub trait SplitBinaryMorphism {</span>
+<span class="comment">//     type InLatReprA: LatticeRepr;</span>
+<span class="comment">//     type InLatReprB: LatticeRepr;</span>
+<span class="comment">//     type OutLatRepr: LatticeRepr;</span>
 
-    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Y</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(
-        <span class="ident">item_a</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">item_b</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    )
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-}
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SplitBinaryMorphismAsMonotone</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">SplitBinaryMorphism</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> {
-    <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
-}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">SplitBinaryMorphism</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">Monotone</span> <span class="kw">for</span> <span class="ident">SplitBinaryMorphismAsMonotone</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">InLatRepr</span>  <span class="op">=</span> <span class="ident">PairRepr</span><span class="op">&lt;</span><span class="ident">F::InLatReprA</span>, <span class="ident">F::InLatReprB</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">OutLatRepr</span> <span class="op">=</span> <span class="ident">F::OutLatRepr</span>;
-    <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span><span class="op">&gt;</span>(<span class="ident">item</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::InLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;h</span>, <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Cumul</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">=</span> <span class="ident">Hide::split_cow</span>(<span class="ident">item</span>);
-        <span class="ident">F::call</span>(<span class="ident">a</span>, <span class="ident">b</span>)
-    }
-}
+<span class="comment">//     fn call&lt;&#39;h, Y: Qualifier&gt;(</span>
+<span class="comment">//         item_a: Cow&lt;&#39;h, Hide&lt;Y, Self::InLatReprA&gt;&gt;,</span>
+<span class="comment">//         item_b: Cow&lt;&#39;h, Hide&lt;Y, Self::InLatReprB&gt;&gt;,</span>
+<span class="comment">//     )</span>
+<span class="comment">//         -&gt; Cow&lt;&#39;h, Hide&lt;Y, Self::OutLatRepr&gt;&gt;;</span>
+<span class="comment">// }</span>
+<span class="comment">// pub struct SplitBinaryMorphismAsMonotone&lt;F: SplitBinaryMorphism + ?Sized&gt; {</span>
+<span class="comment">//     _phantom: std::marker::PhantomData&lt;F&gt;,</span>
+<span class="comment">// }</span>
+<span class="comment">// impl&lt;F: SplitBinaryMorphism + ?Sized&gt; Monotone for SplitBinaryMorphismAsMonotone&lt;F&gt; {</span>
+<span class="comment">//     type InLatRepr  = PairRepr&lt;F::InLatReprA, F::InLatReprB&gt;;</span>
+<span class="comment">//     type OutLatRepr = F::OutLatRepr;</span>
+<span class="comment">//     fn call&lt;&#39;h&gt;(item: Cow&lt;&#39;h, Hide&lt;Cumul, Self::InLatRepr&gt;&gt;) -&gt; Cow&lt;&#39;h, Hide&lt;Cumul, Self::OutLatRepr&gt;&gt; {</span>
+<span class="comment">//         let (a, b) = Hide::split_cow(item);</span>
+<span class="comment">//         F::call(a, b)</span>
+<span class="comment">//     }</span>
+<span class="comment">// }</span>
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hydroflow" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
