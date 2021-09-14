@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["require_lattice_ordered",""]],"struct":[["OpProps",""]]});
+initSidebarItems({"enum":[["False",""],["True",""]],"trait":[["Bool",""],["OpProps",""],["OpProps_OrComp",""],["OrComp",""]],"type":[["OpProps_Or",""],["Or",""]]});

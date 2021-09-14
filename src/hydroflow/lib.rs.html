@@ -21,11 +21,9 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
-<span id="24">24</span>
-<span id="25">25</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">feature</span>(<span class="ident">adt_const_params</span>)]</span>
+</pre><pre class="rust"><code><span class="comment">// #![feature(adt_const_params)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">generic_associated_types</span>)]</span>
-<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">generic_const_exprs</span>)]</span>
+<span class="comment">// #![feature(generic_const_exprs)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">trivial_bounds</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">type_alias_impl_trait</span>)]</span>
 
@@ -37,13 +35,11 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lattice</span>;
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">func</span>;
+<span class="comment">// pub mod func;</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">op</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">graph</span>;
-
-<span class="comment">// pub mod eight_traits;</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">props</span>;
 
