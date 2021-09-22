@@ -76,84 +76,88 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
-</pre><pre class="rust"><code><span class="kw">trait</span> <span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">T</span> {}
+<span id="79">79</span>
+<span id="80">80</span>
+</pre><pre class="rust"><code>
 
-<span class="kw">trait</span> <span class="ident">LinkedSetOrNone</span> {}
-<span class="kw">impl</span> <span class="ident">LinkedSetOrNone</span> <span class="kw">for</span> () {}
+<span class="comment">// trait Identity&lt;T&gt; {}</span>
+<span class="comment">// impl&lt;T&gt; Identity&lt;T&gt; for T {}</span>
 
-<span class="kw">trait</span> <span class="ident">LinkedSet</span> {
-    <span class="kw">type</span> <span class="ident">Item</span>;
-    <span class="kw">type</span> <span class="ident">Next</span>: <span class="ident">LinkedSetOrNone</span>;
-}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">LinkedSet</span><span class="op">&gt;</span> <span class="ident">LinkedSetOrNone</span> <span class="kw">for</span> <span class="ident">T</span> {}
+<span class="comment">// trait LinkedSetOrNone {}</span>
+<span class="comment">// impl LinkedSetOrNone for () {}</span>
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">Next</span>: <span class="ident">LinkedSetOrNone</span><span class="op">&gt;</span> <span class="ident">LinkedSet</span> <span class="kw">for</span> (<span class="ident">Item</span>, <span class="ident">Next</span>) {
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">Item</span>;
-    <span class="kw">type</span> <span class="ident">Next</span> <span class="op">=</span> <span class="ident">Next</span>;
-}
+<span class="comment">// trait LinkedSet {</span>
+<span class="comment">//     type Item;</span>
+<span class="comment">//     type Next: LinkedSetOrNone;</span>
+<span class="comment">// }</span>
+<span class="comment">// impl&lt;T: LinkedSet&gt; LinkedSetOrNone for T {}</span>
 
-<span class="kw">trait</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Output</span>;
-}
+<span class="comment">// impl&lt;Item, Next: LinkedSetOrNone&gt; LinkedSet for (Item, Next) {</span>
+<span class="comment">//     type Item = Item;</span>
+<span class="comment">//     type Next = Next;</span>
+<span class="comment">// }</span>
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span>, <span class="ident">Item</span>, <span class="ident">Next</span>: <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span><span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">Item</span>, <span class="ident">Next</span>) {
-    <span class="ident">default</span> <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>; <span class="comment">//(Item, &lt;Next as Exclude&lt;ItemToRemove&gt;&gt;::Output);</span>
-}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span>, <span class="ident">Item</span>, <span class="ident">Next</span>: <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span><span class="op">&gt;</span> <span class="kw">for</span> (<span class="ident">Item</span>, <span class="ident">Next</span>)
-<span class="kw">where</span>
-    <span class="ident">ItemToRemove</span>: <span class="ident">Identity</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
-{
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">Next</span> <span class="kw">as</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">ItemToRemove</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span>;
-}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span> <span class="kw">for</span> () {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> ();
-}
-
-
-<span class="kw">type</span> <span class="ident">ZZZ</span> <span class="op">=</span> (<span class="ident">u8</span>, (<span class="ident">i16</span>, (<span class="ident">u16</span>, (<span class="ident">u32</span>, ()))));
-<span class="kw">type</span> <span class="ident">XYZ</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">ZZZ</span> <span class="kw">as</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span>;
-
-<span class="kw">fn</span> <span class="ident">_test</span>() {
-    <span class="kw">let</span> <span class="ident">z</span>: <span class="op">&lt;</span>() <span class="kw">as</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span> <span class="op">=</span> ();
-    <span class="kw">let</span> <span class="ident">z</span>: <span class="op">&lt;</span>(<span class="ident">i16</span>, ()) <span class="kw">as</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span> <span class="op">=</span> ();
-    <span class="kw">let</span> <span class="ident">z</span>: <span class="op">&lt;</span>(<span class="ident">u16</span>, ()) <span class="kw">as</span> <span class="ident">Exclude</span><span class="op">&lt;</span><span class="ident">i16</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Output</span> <span class="op">=</span> <span class="string">&quot;hello&quot;</span>; <span class="comment">//(0_u16, ()); //(0_u16, ());</span>
-    <span class="kw">let</span> <span class="ident">xyz</span>: <span class="ident">XYZ</span> <span class="op">=</span> (<span class="number">0_u8</span>, (<span class="number">0_u16</span>, (<span class="number">0_u32</span>, ())));
-}
-
-
-<span class="comment">// pub trait Bool {}</span>
-<span class="comment">// pub enum True {}</span>
-<span class="comment">// impl Bool for True {}</span>
-<span class="comment">// pub enum False {}</span>
-<span class="comment">// impl Bool for False {}</span>
-
-<span class="comment">// trait Ternary {</span>
+<span class="comment">// trait Exclude&lt;Item&gt; {</span>
 <span class="comment">//     type Output;</span>
 <span class="comment">// }</span>
-<span class="comment">// impl&lt;A, B&gt; Ternary for (True, A, B) {</span>
-<span class="comment">//     type Output = A;</span>
-<span class="comment">// }</span>
-<span class="comment">// impl&lt;A, B&gt; Ternary for (False, A, B) {</span>
-<span class="comment">//     type Output = B;</span>
-<span class="comment">// }</span>
 
-<span class="comment">// trait IsEq {</span>
-<span class="comment">//     type Output: Bool = False;</span>
+<span class="comment">// impl&lt;ItemToRemove, Item, Next: Exclude&lt;ItemToRemove&gt;&gt; Exclude&lt;ItemToRemove&gt; for (Item, Next) {</span>
+<span class="comment">//     default type Output = &amp;&#39;static str; //(Item, &lt;Next as Exclude&lt;ItemToRemove&gt;&gt;::Output);</span>
 <span class="comment">// }</span>
-<span class="comment">// impl&lt;A&gt; IsEq for (A, A) {</span>
-<span class="comment">//     type Output = True;</span>
+<span class="comment">// impl&lt;ItemToRemove, Item, Next: Exclude&lt;ItemToRemove&gt;&gt; Exclude&lt;ItemToRemove&gt; for (Item, Next)</span>
+<span class="comment">// where</span>
+<span class="comment">//     ItemToRemove: Identity&lt;Item&gt;,</span>
+<span class="comment">// {</span>
+<span class="comment">//     type Output = &lt;Next as Exclude&lt;ItemToRemove&gt;&gt;::Output;</span>
 <span class="comment">// }</span>
-
-<span class="comment">// trait Id {</span>
-<span class="comment">//     type X;</span>
-<span class="comment">// }</span>
-<span class="comment">// impl&lt;T&gt; Id for T {</span>
-<span class="comment">//     type X = T;</span>
+<span class="comment">// impl&lt;Item&gt; Exclude&lt;Item&gt; for () {</span>
+<span class="comment">//     type Output = ();</span>
 <span class="comment">// }</span>
 
 
-<span class="comment">// type</span>
+<span class="comment">// type ZZZ = (u8, (i16, (u16, (u32, ()))));</span>
+<span class="comment">// type XYZ = &lt;ZZZ as Exclude&lt;i16&gt;&gt;::Output;</span>
+
+<span class="comment">// fn _test() {</span>
+<span class="comment">//     let z: &lt;() as Exclude&lt;i16&gt;&gt;::Output = ();</span>
+<span class="comment">//     let z: &lt;(i16, ()) as Exclude&lt;i16&gt;&gt;::Output = ();</span>
+<span class="comment">//     let z: &lt;(u16, ()) as Exclude&lt;i16&gt;&gt;::Output = &quot;hello&quot;; //(0_u16, ()); //(0_u16, ());</span>
+<span class="comment">//     let xyz: XYZ = (0_u8, (0_u16, (0_u32, ())));</span>
+<span class="comment">// }</span>
+
+
+<span class="comment">// // pub trait Bool {}</span>
+<span class="comment">// // pub enum True {}</span>
+<span class="comment">// // impl Bool for True {}</span>
+<span class="comment">// // pub enum False {}</span>
+<span class="comment">// // impl Bool for False {}</span>
+
+<span class="comment">// // trait Ternary {</span>
+<span class="comment">// //     type Output;</span>
+<span class="comment">// // }</span>
+<span class="comment">// // impl&lt;A, B&gt; Ternary for (True, A, B) {</span>
+<span class="comment">// //     type Output = A;</span>
+<span class="comment">// // }</span>
+<span class="comment">// // impl&lt;A, B&gt; Ternary for (False, A, B) {</span>
+<span class="comment">// //     type Output = B;</span>
+<span class="comment">// // }</span>
+
+<span class="comment">// // trait IsEq {</span>
+<span class="comment">// //     type Output: Bool = False;</span>
+<span class="comment">// // }</span>
+<span class="comment">// // impl&lt;A&gt; IsEq for (A, A) {</span>
+<span class="comment">// //     type Output = True;</span>
+<span class="comment">// // }</span>
+
+<span class="comment">// // trait Id {</span>
+<span class="comment">// //     type X;</span>
+<span class="comment">// // }</span>
+<span class="comment">// // impl&lt;T&gt; Id for T {</span>
+<span class="comment">// //     type X = T;</span>
+<span class="comment">// // }</span>
+
+
+<span class="comment">// // type</span>
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hydroflow" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
