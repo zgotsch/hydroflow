@@ -507,10 +507,10 @@
 <span class="doccomment">/// Collections that behave like a contiguous region of memory. (`AsRef&lt;[T]&gt; + AsMut&lt;[T]&gt;`)</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Contiguous</span>: <span class="ident">CollectionTrait</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>]<span class="op">&gt;</span> {
     <span class="doccomment">/// Extracts a immutable slice of `Self`</span>
-    <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>];
+    <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>];
 
     <span class="doccomment">/// Extracts a mutable slice of `Self`</span>
-    <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>]
+    <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>]
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Mutable</span>,
     {
@@ -521,10 +521,10 @@
 <span class="doccomment">/// Collections that behave like a sequence that can access from front to back.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Sequential</span>: <span class="ident">CollectionTrait</span> <span class="op">+</span> <span class="ident">ExactSized</span> {
     <span class="doccomment">/// Provides a reference to the back element, or `None` if `self` is empty.</span>
-    <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Provides a mutable reference to the back element, or `None` if `self` is empty.</span>
-    <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Mutable</span>,
     {
@@ -551,7 +551,7 @@
     }
 
     <span class="doccomment">/// Removes the last element from `self` and returns it, or `None` if it is empty.</span>
-    <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Owned</span>,
     {
@@ -560,7 +560,7 @@
     }
 
     <span class="doccomment">/// Removes the element at the given index and returns it.</span>
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Owned</span>,
     {
@@ -569,7 +569,7 @@
     }
 
     <span class="doccomment">/// Splits the collection into two at the given index.</span>
-    <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Owned</span> <span class="op">+</span> <span class="ident">Sized</span>,
     {
@@ -581,10 +581,10 @@
 <span class="doccomment">/// Collections that can access sequentially in both ends.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DoubleEnded</span>: <span class="ident">Sequential</span> <span class="op">+</span> <span class="ident">Iterable</span> {
     <span class="doccomment">/// Provides a reference to the front element, or `None` if `self` is empty.</span>
-    <span class="kw">fn</span> <span class="ident">front</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">front</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Provides a mutable reference to the front element, or `None` if `self` is empty.</span>
-    <span class="kw">fn</span> <span class="ident">front_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">front_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Mutable</span>,
     {
@@ -602,7 +602,7 @@
     }
 
     <span class="doccomment">/// Removes the first element and returns it, or `None` if `self` is empty</span>
-    <span class="kw">fn</span> <span class="ident">pop_front</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">pop_front</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Owned</span>,
     {
@@ -634,7 +634,7 @@
     }
 
     <span class="doccomment">/// Returns the index of the partition point according to the given predicate (the index of the first element of the second partition).</span>
-    <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::SizeType</span>;
+    <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) -&gt; <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::SizeType</span>;
 
     <span class="doccomment">/// Swaps elements at indices i and j.</span>
     <span class="kw">fn</span> <span class="ident">swap</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>, <span class="ident">j</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>)
@@ -646,10 +646,10 @@
     }
 
     <span class="doccomment">/// Provides a reference to the element at the given index.</span>
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Provides a mutable reference to the element at the given index.</span>
-    <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Mutable</span>,
     {
@@ -667,7 +667,7 @@
     }
 
     <span class="doccomment">/// Removes an element from anywhere in `self` and returns it, replacing it with the last element.</span>
-    <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Owned</span>,
     {
@@ -680,26 +680,26 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="macro">macro_rules!</span> <span class="ident">sequential_impls</span> {
-        () <span class="op">=</span><span class="op">&gt;</span> {};
-        ([@<span class="ident">Contiguous</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        () =&gt; {};
+        ([@<span class="ident">Contiguous</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
             <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">Contiguous</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-                <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+                <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::as_slice</span>(<span class="self">self</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+                <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::as_mut_slice</span>(<span class="self">self</span>)
                 }
             }
             <span class="macro">sequential_impls!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>)<span class="kw-2">*</span>);
         };
-        ([@<span class="ident">Sequential</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        ([@<span class="ident">Sequential</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
             <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-                <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::back</span>(<span class="self">self</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::back_mut</span>(<span class="self">self</span>)
                 }
 
@@ -711,27 +711,27 @@
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::push_back</span>(<span class="self">self</span>, <span class="ident">elt</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::pop_back</span>(<span class="self">self</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::remove</span>(<span class="self">self</span>, <span class="ident">at</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="self">Self</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::split_off</span>(<span class="self">self</span>, <span class="ident">at</span>)
                 }
             }
             <span class="macro">sequential_impls!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>)<span class="kw-2">*</span>);
         };
-        ([@<span class="ident">DoubleEnded</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        ([@<span class="ident">DoubleEnded</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
             <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">DoubleEnded</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
-                <span class="kw">fn</span> <span class="ident">front</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">front</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::front</span>(<span class="self">self</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">front_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">front_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::front_mut</span>(<span class="self">self</span>)
                 }
 
@@ -739,13 +739,13 @@
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::push_front</span>(<span class="self">self</span>, <span class="ident">value</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">pop_front</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">pop_front</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::pop_front</span>(<span class="self">self</span>)
                 }
             }
             <span class="macro">sequential_impls!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>)<span class="kw-2">*</span>);
         };
-        ([@<span class="ident">RandomAccess</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        ([@<span class="ident">RandomAccess</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">ident</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span>: <span class="ident">path</span> $(<span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">path</span> )<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="op">*</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>: <span class="ident">ty</span>]; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tail</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) =&gt; {
             <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span> $(: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bound</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">RandomAccess</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> {
                 <span class="kw">fn</span> <span class="ident">rotate_left</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mid</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::rotate_left</span>(<span class="self">self</span>, <span class="ident">mid</span>)
@@ -755,7 +755,7 @@
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::rotate_right</span>(<span class="self">self</span>, <span class="ident">mid</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::SizeType</span> {
+                <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) -&gt; <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::SizeType</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::partition_point</span>(<span class="self">self</span>, <span class="ident">pred</span>)
                 }
 
@@ -763,11 +763,11 @@
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::swap</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">j</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::get</span>(<span class="self">self</span>, <span class="ident">index</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::get_mut</span>(<span class="self">self</span>, <span class="ident">index</span>)
                 }
 
@@ -775,7 +775,7 @@
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::insert</span>(<span class="self">self</span>, <span class="ident">index</span>, <span class="ident">value</span>)
                 }
 
-                <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+                <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
                     <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span><span class="ident">::swap_remove_back</span>(<span class="self">self</span>, <span class="ident">index</span>)
                 }
             }
@@ -784,63 +784,63 @@
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Contiguous</span> <span class="kw">for</span> <span class="kw-2">&amp;</span>[<span class="ident">T</span>] {
-        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
             <span class="self">self</span>
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Contiguous</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>] {
-        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
             <span class="self">self</span>
         }
 
-        <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+        <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
             <span class="self">self</span>
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">Contiguous</span> <span class="kw">for</span> [<span class="ident">T</span>; <span class="ident">N</span>] {
-        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+        <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident"><span class="self">Self</span>::ElemType</span>] {
             <span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>]<span class="op">&gt;</span><span class="ident">::as_slice</span>(<span class="self">self</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
+        <span class="kw">fn</span> <span class="ident">as_mut_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident"><span class="self">Self</span>::ElemType</span>] {
             <span class="op">&lt;</span>[<span class="ident">T</span>; <span class="ident">N</span>]<span class="op">&gt;</span><span class="ident">::as_mut_slice</span>(<span class="self">self</span>)
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> <span class="kw-2">&amp;</span>[<span class="ident">T</span>] {
-        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">last</span>()
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>] {
-        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">last</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">last_mut</span>()
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> [<span class="ident">T</span>; <span class="ident">N</span>] {
-        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">last</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">last_mut</span>()
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span>: <span class="ident">std::alloc::Allocator</span> <span class="op">+</span> <span class="ident">std::clone::Clone</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">as_slice</span>().<span class="ident">last</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">as_mut_slice</span>().<span class="ident">last_mut</span>()
         }
 
@@ -852,26 +852,26 @@
             <span class="self">self</span>.<span class="ident">push</span>(<span class="ident">elt</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">pop</span>()
         }
 
         <span class="comment">// `Vec&lt;T&gt;::remove` returns `T` instead of `Option&lt;T&gt;` (`VecDeque&lt;T&gt;` returns `Option&lt;T&gt;`)</span>
-        <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">at</span>))
         }
 
-        <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="self">Self</span> {
             <span class="self">self</span>.<span class="ident">split_off</span>(<span class="ident">at</span>)
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Sequential</span> <span class="kw">for</span> <span class="ident">std::collections::LinkedList</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">back</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">back_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">back_mut</span>()
         }
 
@@ -883,16 +883,16 @@
             <span class="self">self</span>.<span class="ident">push_back</span>(<span class="ident">elt</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">pop_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">pop_back</span>()
         }
 
         <span class="comment">// `LinkedList&lt;T&gt;::remove` returns `T` instead of `Option&lt;T&gt;`</span>
-        <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">at</span>))
         }
 
-        <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">fn</span> <span class="ident">split_off</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">at</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="self">Self</span> {
             <span class="self">self</span>.<span class="ident">split_off</span>(<span class="ident">at</span>)
         }
     }
@@ -906,7 +906,7 @@
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::rotate_right</span>(<span class="self">self</span>, <span class="ident">mid</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::SizeType</span> {
+        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) -&gt; <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::SizeType</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::partition_point</span>(<span class="self">self</span>, <span class="ident">pred</span>)
         }
 
@@ -914,11 +914,11 @@
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::swap</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">j</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::get</span>(<span class="self">self</span>, <span class="ident">index</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::get_mut</span>(<span class="self">self</span>, <span class="ident">index</span>)
         }
     }
@@ -932,7 +932,7 @@
             <span class="self">self</span>.<span class="ident">as_mut_slice</span>().<span class="ident">rotate_right</span>(<span class="ident">mid</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::SizeType</span> {
+        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) -&gt; <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::SizeType</span> {
             <span class="self">self</span>.<span class="ident">as_slice</span>().<span class="ident">partition_point</span>(<span class="ident">pred</span>)
         }
 
@@ -940,11 +940,11 @@
             <span class="self">self</span>.<span class="ident">as_mut_slice</span>().<span class="ident">swap</span>(<span class="ident">i</span>, <span class="ident">j</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">as_slice</span>().<span class="ident">get</span>(<span class="ident">index</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="self">self</span>.<span class="ident">as_mut_slice</span>().<span class="ident">get_mut</span>(<span class="ident">index</span>)
         }
     }
@@ -958,7 +958,7 @@
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::rotate_right</span>(<span class="self">self</span>, <span class="ident">mid</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::SizeType</span> {
+        <span class="kw">fn</span> <span class="ident">partition_point</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span>) -&gt; <span class="ident">bool</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pred</span>: <span class="ident">P</span>) -&gt; <span class="ident"><span class="self">Self</span>::SizeType</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::partition_point</span>(<span class="self">self</span>, <span class="ident">pred</span>)
         }
 
@@ -966,11 +966,11 @@
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::swap</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">j</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::get</span>(<span class="self">self</span>, <span class="ident">index</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="op">&lt;</span>[<span class="ident">T</span>]<span class="op">&gt;</span><span class="ident">::get_mut</span>(<span class="self">self</span>, <span class="ident">index</span>)
         }
 
@@ -978,20 +978,20 @@
             <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">index</span>, <span class="ident">value</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">swap_remove_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident"><span class="self">Self</span>::SizeType</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ElemType</span><span class="op">&gt;</span> {
             <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">swap_remove</span>(<span class="ident">index</span>))
         }
     }
 
     <span class="macro">sequential_impls!</span>(
-        [@<span class="ident">Contiguous</span> <span class="ident">T</span>, <span class="ident">A</span>: <span class="ident">std::alloc::Allocator</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>];
+        [@<span class="ident">Contiguous</span> <span class="ident">T</span>, <span class="ident">A</span>: <span class="ident">std::alloc::Allocator</span> =&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">A</span><span class="op">&gt;</span>];
 
-        [@<span class="ident">Sequential</span> <span class="ident">T</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
+        [@<span class="ident">Sequential</span> <span class="ident">T</span> =&gt; <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
 
-        [@<span class="ident">DoubleEnded</span> <span class="ident">T</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
-        [@<span class="ident">DoubleEnded</span> <span class="ident">T</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">std::collections::LinkedList</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
+        [@<span class="ident">DoubleEnded</span> <span class="ident">T</span> =&gt; <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
+        [@<span class="ident">DoubleEnded</span> <span class="ident">T</span> =&gt; <span class="ident">std::collections::LinkedList</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
 
-        [@<span class="ident">RandomAccess</span> <span class="ident">T</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
+        [@<span class="ident">RandomAccess</span> <span class="ident">T</span> =&gt; <span class="ident">std::collections::VecDeque</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>];
     );
 }
 </code></pre></div>

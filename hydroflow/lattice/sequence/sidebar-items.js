@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["IdOrder",""]],"struct":[["Sequence",""],["SequenceRepr",""]],"trait":[["Order",""],["SequenceTag",""]]});

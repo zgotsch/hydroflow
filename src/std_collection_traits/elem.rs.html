@@ -251,7 +251,7 @@
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IntoIteratorOwned</span>: <span class="ident">CollectionTrait</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::ElemType</span>;
-    <span class="kw">fn</span> <span class="ident">into_iter_owned</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span>
+    <span class="kw">fn</span> <span class="ident">into_iter_owned</span>(<span class="self">self</span>) -&gt; <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Owned</span>,
     {
@@ -261,7 +261,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">CollectionTrait</span> <span class="op">+</span> <span class="ident">Owned</span><span class="op">&gt;</span> <span class="ident">IntoIteratorOwned</span> <span class="kw">for</span> <span class="ident">T</span> {
-    <span class="kw">fn</span> <span class="ident">into_iter_owned</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter_owned</span>(<span class="self">self</span>) -&gt; <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">IntoIterator</span><span class="op">&gt;</span><span class="ident">::IntoIter</span> {
         <span class="self">self</span>.<span class="ident">into_iter</span>()
     }
 }

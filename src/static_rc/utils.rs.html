@@ -23,20 +23,20 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compile-time-ratio&quot;</span>)]</span>
 <span class="macro">macro_rules!</span> <span class="ident">AssertLeType</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>:<span class="ident">expr</span>) =&gt; {
         [(); <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span> <span class="op">-</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>]
     };
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compile-time-ratio&quot;</span>))]</span>
 <span class="macro">macro_rules!</span> <span class="ident">AssertLeType</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>:<span class="ident">expr</span>) =&gt; {
         ()
     };
 }
 
 <span class="macro">macro_rules!</span> <span class="ident">AssertEqType</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>: <span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>: <span class="ident">expr</span>) =&gt; {
         (<span class="macro">AssertLeType!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>), <span class="macro">AssertLeType!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">right</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">left</span>))
     };
 }
