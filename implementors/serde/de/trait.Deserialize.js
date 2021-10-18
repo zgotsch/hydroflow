@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["hydroflow"] = [{"text":"impl&lt;'de, T:&nbsp;<a class=\"trait\" href=\"serde/de/trait.Deserialize.html\" title=\"trait serde::de::Deserialize\">Deserialize</a>&lt;'de&gt;&gt; <a class=\"trait\" href=\"serde/de/trait.Deserialize.html\" title=\"trait serde::de::Deserialize\">Deserialize</a>&lt;'de&gt; for <a class=\"struct\" href=\"hydroflow/collections/struct.Single.html\" title=\"struct hydroflow::collections::Single\">Single</a>&lt;T&gt;","synthetic":false,"types":["hydroflow::collections::Single"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

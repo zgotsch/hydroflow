@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["False",""],["True",""]],"trait":[["Bool",""],["OpProps",""],["OpProps_OrComp",""],["OrComp",""]],"type":[["OpProps_Or",""],["Or",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Cumul",""],["Delta",""]],"struct":[["Hide",""]],"trait":[["Qualifier",""]]});

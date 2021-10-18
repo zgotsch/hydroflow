@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["Contiguous","Collections that behave like a contiguous region of memory. (`AsRef<[T]> + AsMut<[T]>`)"],["DoubleEnded","Collections that can access sequentially in both ends."],["RandomAccess","Collections that are randomly accessible in about O(1) time."],["Sequential","Collections that behave like a sequence that can access from front to back."]]});

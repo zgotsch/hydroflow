@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["AssociatedCollectionTrait",""],["CollectionTrait",""],["ExtendOwned",""],["IntoIteratorOwned",""],["Mutable",""],["Owned",""]]});

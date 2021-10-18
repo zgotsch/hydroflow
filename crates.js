@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["either","hydroflow","proc_macro2","quote","ref_cast","ref_cast_impl","serde","static_assertions","static_rc","std_collection_traits","syn","unicode_xid"];
+window.ALL_CRATES = ["hydroflow","slotmap"];
