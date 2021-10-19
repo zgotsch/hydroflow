@@ -579,7 +579,6 @@
 <span id="579">579</span>
 <span id="580">580</span>
 <span id="581">581</span>
-<span id="582">582</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
 
 <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
@@ -610,6 +609,7 @@
  * The write piece of a handoff.
  */</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Writable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::result_unit_err</span>)]</span>
     <span class="kw">fn</span> <span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), ()<span class="op">&gt;</span>;
 }
 <span class="doccomment">/**
@@ -700,6 +700,7 @@
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Handoff</span><span class="op">&gt;</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">H</span><span class="op">&gt;</span> {
     <span class="comment">// TODO: represent backpressure in this return value.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::result_unit_err</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">H::Item</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), ()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">once</span>.<span class="ident">get</span>().<span class="ident">try_give</span>(<span class="ident">item</span>)
     }
@@ -861,12 +862,14 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Hydroflow</span> {
     <span class="comment">// TODO(justin): instead of this being a vec of metas, it could be</span>
     <span class="comment">// implemented for 2-tuples of metas.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
     <span class="ident">subgraphs</span>: <span class="ident">SlotMap</span><span class="op">&lt;</span><span class="ident">OpId</span>, (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HandoffMeta</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Subgraph</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
     <span class="comment">// TODO: track the graph structure and schedule.</span>
 }
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::derivable_impls</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Hydroflow</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">Hydroflow</span> {
+        <span class="self">Self</span> {
             <span class="ident">subgraphs</span>: <span class="ident">Default::default</span>(),
         }
     }
@@ -931,7 +934,6 @@
     <span class="doccomment">/**
      * Adds a new compiled subraph with a single input and output, and returns the input/output handles.
      */</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_inout</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">subgraph</span>: <span class="ident">F</span>) -&gt; (<span class="ident">InputPort</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">OutputPort</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>)
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>),
@@ -946,7 +948,6 @@
     <span class="doccomment">/**
      * Adds a new compiled subraph with one input and two outputs, and returns the input/output handles.
      */</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_binary_out</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W1</span>, <span class="ident">W2</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="kw-2">mut</span> <span class="ident">subgraph</span>: <span class="ident">F</span>,
@@ -967,7 +968,6 @@
     <span class="doccomment">/**
      * Adds a new compiled subraph with two inputs and a single output, and returns the input/output handles.
      */</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_binary</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R1</span>, <span class="ident">R2</span>, <span class="ident">W</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="kw-2">mut</span> <span class="ident">subgraph</span>: <span class="ident">F</span>,
@@ -988,7 +988,6 @@
     <span class="doccomment">/**
      * Adds a new compiled subgraph with no inputs and one output.
      */</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_source</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">W</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">subgraph</span>: <span class="ident">F</span>) -&gt; <span class="ident">OutputPort</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>),
@@ -1001,7 +1000,6 @@
     <span class="doccomment">/**
      * Adds a new compiled subgraph with one inputs and no outputs.
      */</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_sink</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">subgraph</span>: <span class="ident">F</span>) -&gt; <span class="ident">InputPort</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
