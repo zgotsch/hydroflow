@@ -581,6 +581,8 @@
 <span id="581">581</span>
 <span id="582">582</span>
 <span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
 
 <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
@@ -707,6 +709,7 @@
 <span class="doccomment">/**
  * Handle corresponding to a [SendCtx]. Consumed by [Hydroflow::add_edge] to construct the Hydroflow graph.
  */</span>
+<span class="attribute">#[<span class="ident">must_use</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OutputPort</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Handoff</span><span class="op">&gt;</span> {
     <span class="ident">once</span>: <span class="ident">util::SendOnce</span><span class="op">&lt;</span><span class="ident">H::Writable</span><span class="op">&gt;</span>,
 }
@@ -730,6 +733,7 @@
  * Handle corresponding to a [RecvCtx]. Consumed by [Hydroflow::add_edge] to construct the Hydroflow graph.
  */</span>
 <span class="comment">// TODO: figure out how to explain succinctly why this and output port both use Writable</span>
+<span class="attribute">#[<span class="ident">must_use</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InputPort</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Handoff</span><span class="op">&gt;</span> {
     <span class="ident">handoff</span>: <span class="ident">H::Writable</span>,
 }
