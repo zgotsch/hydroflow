@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["hydroflow","slotmap","tuple_list"];
+window.ALL_CRATES = ["heck","hydroflow","proc_macro2","quote","sealed","slotmap","syn","tuple_list","unicode_segmentation","unicode_xid"];
