@@ -186,6 +186,30 @@ where
 }
 
 /**
+ * Closure-based [OpSubtree] implementation.
+ */
+struct VariadicClosureSubgraph<F, R, W>
+where
+    F: FnMut(&mut R::RecvCtx, &mut W::SendCtx),
+    R: HandoffList,
+    W: HandoffList,
+{
+    f: F,
+    recv: R::RecvCtx,
+    send: W::SendCtx,
+}
+impl<F, R, W> Subgraph for VariadicClosureSubgraph<F, R, W>
+where
+    F: FnMut(&mut R::RecvCtx, &mut W::SendCtx),
+    R: HandoffList,
+    W: HandoffList,
+{
+    fn run(&mut self) {
+        (self.f)(&mut self.recv, &mut self.send)
+    }
+}
+
+/**
  * A Hydroflow graph. Owns, schedules, and runs the compiled subgraphs.
  */
 pub struct Hydroflow {
@@ -293,7 +317,123 @@ impl Hydroflow {
     {
         output_port.once.send(input_port.handoff);
     }
+
+    #[must_use]
+    pub fn add_subgraph<F, R, W>(&mut self, subgraph: F) -> ()
+    where
+        F: 'static + FnMut(&mut R::RecvCtx, &mut W::SendCtx),
+        R: 'static + HandoffList,
+        W: 'static + HandoffList,
+    {
+        let (recv, input_port, meta) = R::make_input();
+        let (send, output_port) = W::make_output();
+
+        let sg: VariadicClosureSubgraph<F, R, W> = VariadicClosureSubgraph {
+            f: subgraph,
+            recv,
+            send,
+        };
+        self.subgraphs.insert((Box::new(meta), Box::new(sg)));
+
+        // (input_port, output_port)
+        unimplemented!();
+    }
 }
+
+pub trait HandoffList {
+    type RecvCtx;
+    type InputPort;
+    type Meta;
+    fn make_input() -> (Self::RecvCtx, Self::InputPort, Self::Meta);
+
+    type SendCtx;
+    type OutputPort;
+    fn make_output() -> (Self::SendCtx, Self::OutputPort);
+}
+impl<H, L> HandoffList for (H, L)
+where
+    H: Handoff,
+    L: HandoffList,
+{
+    type RecvCtx = (RecvCtx<H>, L::RecvCtx);
+    type InputPort = (InputPort<H>, L::InputPort);
+    type Meta = (H::Meta, L::Meta);
+    fn make_input() -> (Self::RecvCtx, Self::InputPort, Self::Meta) {
+        let (read_side, write_side, meta) = H::new();
+
+        let recv = RecvCtx {
+            handoff: Rc::new(RefCell::new(read_side)),
+        };
+        let input = InputPort {
+            handoff: write_side,
+        };
+
+        let (recv_rest, input_rest, meta_rest) = L::make_input();
+
+        ((recv, recv_rest), (input, input_rest), (meta, meta_rest))
+    }
+
+    type SendCtx = (SendCtx<H>, L::SendCtx);
+    type OutputPort = (OutputPort<H>, L::OutputPort);
+    fn make_output() -> (Self::SendCtx, Self::OutputPort) {
+        let (once_send, once_recv) = util::once();
+
+        let send = SendCtx { once: once_recv };
+        let output = OutputPort { once: once_send };
+
+        let (send_rest, output_rest) = L::make_output();
+
+        ((send, send_rest), (output, output_rest))
+    }
+}
+impl HandoffList for () {
+    type RecvCtx = ();
+    type InputPort = ();
+    type Meta = ();
+    fn make_input() -> (Self::RecvCtx, Self::InputPort, Self::Meta) {
+        ((), (), ())
+    }
+
+    type SendCtx = ();
+    type OutputPort = ();
+    fn make_output() -> (Self::SendCtx, Self::OutputPort) {
+        ((), ())
+    }
+}
+
+// pub trait TypeList<T> {
+//     type Map<R>: TypeList<R>;
+
+//     fn map<F, R>(self, f: F) -> Self::Map<R>
+//     where
+//         F: FnMut(T) -> R;
+// }
+// impl<T, L> TypeList<T> for (T, L)
+// where
+//     L: TypeList<T>,
+// {
+//     type Map<R> = (R, L::Map<R>);
+
+//     fn map<F, R>(self, mut f: F) -> Self::Map<R>
+//     where
+//         F: FnMut(T) -> R
+//     {
+//         let car = (f)(self.0);
+//         let cdr = self.1.map(f);
+//         (car, cdr)
+//     }
+// }
+// impl<T> TypeList<T> for () {
+//     type Map<R> = ();
+
+//     fn map<F, R>(self, _f: F) -> Self::Map<R>
+//     where
+//         F: FnMut(T) -> R
+//     {
+//         ()
+//     }
+// }
+
 
 #[test]
 fn map_filter() {
