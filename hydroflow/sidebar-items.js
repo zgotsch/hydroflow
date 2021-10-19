@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Dataflow",""],["InputPort",""],["OutputPort",""],["RecvCtx",""],["SendCtx",""],["VecHandoff",""]],"trait":[["Handoff",""],["HandoffMeta",""],["OpSubtree",""],["Readable",""],["Writable",""]]});
+initSidebarItems({"enum":[["NullHandoff",""]],"struct":[["Dataflow",""],["InputPort",""],["OutputPort",""],["RecvCtx",""],["SendCtx",""],["VecHandoff",""]],"trait":[["Handoff",""],["HandoffMeta",""],["OpSubtree",""],["Readable",""],["Writable",""]]});
