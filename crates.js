@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["hydroflow","slotmap"];
+window.ALL_CRATES = ["hydroflow","slotmap","tuple_list"];
