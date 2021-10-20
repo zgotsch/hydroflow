@@ -136,7 +136,6 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
-<span id="139">139</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::collections::VecDeque</span>;
 <span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
@@ -172,7 +171,6 @@
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">SideSplitState::default</span>()));
         <span class="self">self</span>.<span class="ident">splits</span>.<span class="ident">push</span>(<span class="ident">state</span>.<span class="ident">clone</span>());
 
-        
         <span class="ident">SideSplit</span> { <span class="ident">state</span> }
     }
 }
