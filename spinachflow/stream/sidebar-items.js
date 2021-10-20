@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["AsymSplit",""],["Debug",""],["Join",""],["SelectArr",""],["SideSplit",""],["Split",""],["SplitData",""],["Splitter",""]]});
+initSidebarItems({"struct":[["AsymSplit",""],["Debug",""],["Join",""],["SelectArr",""],["SideSplit",""]]});

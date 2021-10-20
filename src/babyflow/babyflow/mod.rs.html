@@ -320,6 +320,16 @@
 <span id="320">320</span>
 <span id="321">321</span>
 <span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">cell::RefCell</span>,
     <span class="ident">collections</span>::{<span class="ident">HashSet</span>, <span class="ident">VecDeque</span>},
@@ -480,7 +490,17 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="op">=</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">schedule</span>).<span class="ident">borrow_mut</span>().<span class="ident">pop</span>() {
+        <span class="comment">// loop {</span>
+        <span class="comment">//     let id = if let Some(v) = (*self.schedule).borrow_mut().pop() {</span>
+        <span class="comment">//         v</span>
+        <span class="comment">//     } else {</span>
+        <span class="comment">//         break;</span>
+        <span class="comment">//     };</span>
+
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">borrow</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">schedule</span>).<span class="ident">borrow_mut</span>();
+            <span class="ident">borrow</span>.<span class="ident">pop</span>()
+        } {
             <span class="self">self</span>.<span class="ident">operators</span>[<span class="ident">id</span>]();
 
             <span class="comment">// If that operator sent out any data, its corresponding dirty bit will be true, so</span>
