@@ -98,46 +98,11 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
-<span id="109">109</span>
-<span id="110">110</span>
-<span id="111">111</span>
-<span id="112">112</span>
-<span id="113">113</span>
-<span id="114">114</span>
-<span id="115">115</span>
-<span id="116">116</span>
-<span id="117">117</span>
-<span id="118">118</span>
-<span id="119">119</span>
-<span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::any::Any</span>;
-<span class="kw">use</span> <span class="ident">std::net::SocketAddr</span>;
-
-<span class="kw">use</span> <span class="ident">serde::ser::Serialize</span>;
-<span class="kw">use</span> <span class="ident">tokio::net::tcp::OwnedWriteHalf</span>;
-
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::comp</span>::{<span class="ident">DebugComp</span>, <span class="ident">NullComp</span>, <span class="ident">TcpComp</span>, <span class="ident">TcpServerComp</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::comp</span>::{<span class="ident">DebugComp</span>, <span class="ident">NullComp</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::func::unary</span>::{<span class="ident">Morphism</span>, <span class="ident">ClosureMorphism</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::func::binary::BinaryMorphism</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Convert</span>, <span class="ident">Debottom</span>, <span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>, <span class="ident">Top</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::map_union</span>::{<span class="ident">MapTag</span>, <span class="ident">MapUnionRepr</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::pair::PairRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::tcp_server::TcpServer</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -231,25 +196,6 @@
         <span class="self">Self</span>: <span class="ident">OpDelta</span>,
     {
         <span class="ident">NullComp::new</span>(<span class="self">self</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">comp_tcp</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">Any</span> <span class="op">+</span> <span class="ident">LatticeRepr</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">tcp_write</span>: <span class="ident">OwnedWriteHalf</span>) -&gt; <span class="ident">TcpComp</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="self">Self</span>: <span class="ident">OpDelta</span><span class="op">&lt;</span><span class="ident">LatRepr</span> <span class="op">=</span> <span class="ident">Lr</span><span class="op">&gt;</span>,
-        <span class="ident">Lr::Repr</span>: <span class="ident">Serialize</span>,
-    {
-        <span class="ident">TcpComp::new</span>(<span class="self">self</span>, <span class="ident">tcp_write</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">comp_tcp_server</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">Any</span> <span class="op">+</span> <span class="ident">LatticeRepr</span>, <span class="ident">Tag</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">tcp_server</span>: <span class="ident">TcpServer</span>) -&gt; <span class="ident">TcpServerComp</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Tag</span>, <span class="ident">Lr</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">Tag</span>: <span class="ident">MapTag</span><span class="op">&lt;</span><span class="ident">SocketAddr</span>, <span class="ident">Lr::Repr</span><span class="op">&gt;</span>,
-        <span class="ident">MapUnionRepr</span><span class="op">&lt;</span><span class="ident">Tag</span>, <span class="ident">SocketAddr</span>, <span class="ident">Lr</span><span class="op">&gt;</span>: <span class="ident">LatticeRepr</span>,
-        <span class="self">Self</span>: <span class="ident">OpDelta</span><span class="op">&lt;</span><span class="ident">LatRepr</span> <span class="op">=</span> <span class="ident">MapUnionRepr</span><span class="op">&lt;</span><span class="ident">Tag</span>, <span class="ident">SocketAddr</span>, <span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::LatRepr</span> <span class="kw">as</span> <span class="ident">LatticeRepr</span><span class="op">&gt;</span><span class="ident">::Repr</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">SocketAddr</span>, <span class="ident">Lr::Repr</span>)<span class="op">&gt;</span>,
-        <span class="ident">Lr::Repr</span>: <span class="ident">Serialize</span>,
-    {
-        <span class="ident">TcpServerComp::new</span>(<span class="self">self</span>, <span class="ident">tcp_server</span>)
     }
 }
 </code></pre></div>
