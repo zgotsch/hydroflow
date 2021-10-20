@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ClosureMorphism",""],["HashPartitioned",""]],"trait":[["Monotone",""],["Morphism",""]]});

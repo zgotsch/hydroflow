@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CartesianProduct",""],["HashPartitioned",""],["Pair",""],["TableProduct",""]],"trait":[["BinaryMorphism",""]]});
