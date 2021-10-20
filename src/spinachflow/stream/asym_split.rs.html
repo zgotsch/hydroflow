@@ -137,8 +137,6 @@
 <span id="137">137</span>
 <span id="138">138</span>
 <span id="139">139</span>
-<span id="140">140</span>
-<span id="141">141</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::collections::VecDeque</span>;
 <span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
@@ -174,8 +172,8 @@
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">SideSplitState::default</span>()));
         <span class="self">self</span>.<span class="ident">splits</span>.<span class="ident">push</span>(<span class="ident">state</span>.<span class="ident">clone</span>());
 
-        <span class="kw">let</span> <span class="ident">split</span> <span class="op">=</span> <span class="ident">SideSplit</span> { <span class="ident">state</span> };
-        <span class="ident">split</span>
+        
+        <span class="ident">SideSplit</span> { <span class="ident">state</span> }
     }
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Stream</span> <span class="kw">for</span> <span class="ident">AsymSplit</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
@@ -207,7 +205,7 @@
                 }
                 <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>)
             }
-            <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>
+            <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
         }
     }
 }
@@ -237,11 +235,9 @@
         <span class="ident">state</span>.<span class="ident">waker</span>.<span class="ident">replace</span>(<span class="ident">cx</span>.<span class="ident">waker</span>().<span class="ident">clone</span>());
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">item</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">buf</span>.<span class="ident">pop_front</span>() {
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">item</span>))
-        }
-        <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">end</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">end</span> {
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>)
-        }
-        <span class="kw">else</span> {
+        } <span class="kw">else</span> {
             <span class="ident">Poll::Pending</span>
         }
     }
@@ -251,8 +247,8 @@
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_asym_split_merge</span>() {
     <span class="kw">const</span> <span class="ident">BRANCH_FACTOR</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">10</span>;
 
-    <span class="kw">use</span> <span class="ident">futures::StreamExt</span>;
     <span class="kw">use</span> <span class="ident">futures::future::ready</span>;
+    <span class="kw">use</span> <span class="ident">futures::StreamExt</span>;
 
     <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">futures::stream::iter</span>(<span class="number">0</span>..<span class="number">10_000</span>);
 

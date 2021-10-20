@@ -39,14 +39,13 @@
 <span id="39">39</span>
 <span id="40">40</span>
 <span id="41">41</span>
-<span id="42">42</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
 <span class="kw">use</span> <span class="ident">tokio::sync::mpsc</span>;
 
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Delta</span>, <span class="ident">Hide</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::metadata::Order</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::optrait</span>::<span class="kw-2">*</span>;
@@ -55,8 +54,7 @@
     <span class="ident">receiver</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">mpsc::UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> <span class="ident">ChannelOp</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span>
-{
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Lr</span>: <span class="ident">LatticeRepr</span><span class="op">&gt;</span> <span class="ident">ChannelOp</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">receiver</span>: <span class="ident">mpsc::UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">receiver</span>: <span class="ident">RefCell::new</span>(<span class="ident">receiver</span>),

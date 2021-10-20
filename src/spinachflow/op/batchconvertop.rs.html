@@ -61,10 +61,15 @@
 <span id="61">61</span>
 <span id="62">62</span>
 <span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">LatticeRepr</span>, <span class="ident">Convert</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Delta</span>, <span class="ident">Hide</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Convert</span>, <span class="ident">LatticeRepr</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
@@ -83,7 +88,10 @@
     <span class="ident">O::LatRepr</span>: <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span>,
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">op</span>: <span class="ident">O</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">op</span>, <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span> }
+        <span class="self">Self</span> {
+            <span class="ident">op</span>,
+            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>,
+        }
     }
 }
 
@@ -108,7 +116,9 @@
 
     <span class="kw">fn</span> <span class="ident">poll_delta</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Delta</span>, <span class="ident"><span class="self">Self</span>::LatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">op</span>.<span class="ident">poll_delta</span>(<span class="ident">ctx</span>) {
-            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">delta</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">O::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>))),
+            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">delta</span>)) =&gt; {
+                <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">O::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>)))
+            }
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>),
             <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
         }

@@ -53,18 +53,11 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::pin</span>::{<span class="ident">Pin</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
 <span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
 <span class="kw">use</span> <span class="ident">futures::stream::Stream</span>;
 <span class="kw">use</span> <span class="ident">pin_project::pin_project</span>;
-
 
 <span class="attribute">#[<span class="ident">pin_project</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SelectArr</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Stream</span> <span class="op">+</span> <span class="ident">Unpin</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> {
@@ -74,10 +67,7 @@
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Stream</span> <span class="op">+</span> <span class="ident">Unpin</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">SelectArr</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">streams</span>: [<span class="ident">S</span>; <span class="ident">N</span>]) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">streams</span>,
-            <span class="ident">i</span>: <span class="number">0</span>,
-        }
+        <span class="self">Self</span> { <span class="ident">streams</span>, <span class="ident">i</span>: <span class="number">0</span> }
     }
 }
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Stream</span> <span class="op">+</span> <span class="ident">Unpin</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">Stream</span> <span class="kw">for</span> <span class="ident">SelectArr</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> {
@@ -109,12 +99,10 @@
     <span class="kw">const</span> <span class="ident">NUM_OPS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">5</span>;
     <span class="kw">const</span> <span class="ident">NUM_INTS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1000</span>;
 
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::futures::StreamExt</span>;
     <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::futures::future::ready</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::futures::StreamExt</span>;
 
-    <span class="kw">let</span> <span class="ident">streams</span> <span class="op">=</span> [(); <span class="ident">NUM_OPS</span>].<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-        <span class="ident"><span class="kw">crate</span>::futures::stream::iter</span>(<span class="number">0</span>..<span class="ident">NUM_INTS</span>)
-    });
+    <span class="kw">let</span> <span class="ident">streams</span> <span class="op">=</span> [(); <span class="ident">NUM_OPS</span>].<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident"><span class="kw">crate</span>::futures::stream::iter</span>(<span class="number">0</span>..<span class="ident">NUM_INTS</span>));
     <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">SelectArr::new</span>(<span class="ident">streams</span>);
     <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">ready</span>(<span class="ident">x</span>));
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">stream</span>;

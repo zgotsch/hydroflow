@@ -74,13 +74,11 @@
 <span id="74">74</span>
 <span id="75">75</span>
 <span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::Cell</span>;
 <span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Value</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Top</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Delta</span>, <span class="ident">Hide</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::Top</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
@@ -127,8 +125,7 @@
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>)
             <span class="comment">// TODO?</span>
             <span class="comment">// Poll::Ready(Some(Hide::new(&lt;Self::LatRepr as Top&gt;::top())))</span>
-        }
-        <span class="kw">else</span> {
+        } <span class="kw">else</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">op</span>.<span class="ident">poll_delta</span>(<span class="ident">ctx</span>) {
                 <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">delta</span>)) =&gt; {
                     <span class="self">self</span>.<span class="ident">propegate_saturation</span>();
@@ -148,8 +145,7 @@
     <span class="kw">fn</span> <span class="ident">get_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident"><span class="self">Self</span>::LatRepr</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">at_top</span>.<span class="ident">get</span>() {
             <span class="ident">Hide::new</span>(<span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::LatRepr</span> <span class="kw">as</span> <span class="ident">Top</span><span class="op">&gt;</span><span class="ident">::top</span>())
-        }
-        <span class="kw">else</span> {
+        } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">op</span>.<span class="ident">get_value</span>()
         }
     }

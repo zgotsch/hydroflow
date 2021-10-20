@@ -37,10 +37,7 @@
 <span id="37">37</span>
 <span id="38">38</span>
 <span id="39">39</span>
-<span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::pin</span>::{<span class="ident">Pin</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
 <span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
 <span class="kw">use</span> <span class="ident">futures::stream::Stream</span>;
@@ -62,10 +59,7 @@
     <span class="ident">S::Item</span>: <span class="ident">std::fmt::Debug</span>,
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">S</span>, <span class="ident">tag</span>: <span class="ident">String</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">stream</span>,
-            <span class="ident">tag</span>,
-        }
+        <span class="self">Self</span> { <span class="ident">stream</span>, <span class="ident">tag</span> }
     }
 }
 

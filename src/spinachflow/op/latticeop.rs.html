@@ -86,8 +86,8 @@
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>, <span class="ident">Convert</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Delta</span>, <span class="ident">Hide</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Convert</span>, <span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
@@ -149,7 +149,7 @@
                     <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">borrow_mut</span>();
                     <span class="comment">// F::delta(state, &amp;mut delta); // TODO!! Doesn&#39;t minimize deltas.</span>
                     <span class="kw">if</span> <span class="ident">Lr::merge_hide</span>(<span class="ident">state</span>, <span class="ident">delta</span>.<span class="ident">clone</span>()) {
-                        <span class="kw">return</span> <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">O::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>)))
+                        <span class="kw">return</span> <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">O::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">Lr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>)));
                     }
                     <span class="comment">// Else: Delta did not change state, try again.</span>
                 }

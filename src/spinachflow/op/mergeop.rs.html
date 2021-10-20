@@ -70,10 +70,12 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Delta</span>, <span class="ident">Value</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>, <span class="ident">Convert</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Delta</span>, <span class="ident">Hide</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice</span>::{<span class="ident">Convert</span>, <span class="ident">LatticeRepr</span>, <span class="ident">Merge</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::metadata::Order</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -124,7 +126,9 @@
             <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
         };
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">op_b</span>.<span class="ident">poll_delta</span>(<span class="ident">ctx</span>) {
-            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">delta</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">B::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">A::LatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>))),
+            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">delta</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(
+                <span class="op">&lt;</span><span class="ident">B::LatRepr</span> <span class="kw">as</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">A::LatRepr</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::convert_hide</span>(<span class="ident">delta</span>),
+            )),
             <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>) =&gt; <span class="ident">not_ready</span>,
             <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
         }

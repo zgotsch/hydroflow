@@ -79,13 +79,12 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
-<span id="82">82</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::iter::FromIterator</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnion</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::map_union::MapUnion</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Qualifier</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::map_union::MapUnion</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnion</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::BinaryMorphism</span>;
 
@@ -114,7 +113,7 @@
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>
+            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>,
         }
     }
 }
@@ -150,10 +149,9 @@
 
     <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>, <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>
-    )
-        -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span>
-    {
+        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>,
+        <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">item_a</span>
             .<span class="ident">into_reveal</span>()
             .<span class="ident">into_iter</span>()

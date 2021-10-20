@@ -80,15 +80,16 @@
 <span id="80">80</span>
 <span id="81">81</span>
 <span id="82">82</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell</span>::{<span class="ident">RefCell</span>};
+<span id="83">83</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::future::Future</span>;
 <span class="kw">use</span> <span class="ident">std::iter::IntoIterator</span>;
 
 <span class="kw">use</span> <span class="ident">futures::future</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op</span>::{<span class="ident">OpDelta</span>, <span class="ident">OpValue</span>, <span class="ident">Splitter</span>, <span class="ident">SplitOp</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnion</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::op</span>::{<span class="ident">OpDelta</span>, <span class="ident">OpValue</span>, <span class="ident">SplitOp</span>, <span class="ident">Splitter</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Comp</span>, <span class="ident">CompConnector</span>, <span class="ident">Next</span>};
 
@@ -143,7 +144,8 @@
             }
 
             <span class="comment">// Run all the ticks, remove any erroring comps.</span>
-            <span class="kw">let</span> <span class="ident">tick_results</span> <span class="op">=</span> <span class="ident">future::join_all</span>(<span class="self">self</span>.<span class="ident">splits</span>.<span class="ident">borrow</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">comp</span><span class="op">|</span> <span class="ident">comp</span>.<span class="ident">tick</span>())).<span class="kw">await</span>;
+            <span class="kw">let</span> <span class="ident">tick_results</span> <span class="op">=</span>
+                <span class="ident">future::join_all</span>(<span class="self">self</span>.<span class="ident">splits</span>.<span class="ident">borrow</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">comp</span><span class="op">|</span> <span class="ident">comp</span>.<span class="ident">tick</span>())).<span class="kw">await</span>;
             {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">splits</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">splits</span>.<span class="ident">borrow_mut</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">0</span>;

@@ -31,10 +31,9 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
-<span id="34">34</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Qualifier</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::pair::PairRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Qualifier</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::BinaryMorphism</span>;
 
@@ -59,10 +58,9 @@
 
     <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>, <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>
-    )
-        -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span>
-    {
+        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>,
+        <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span> {
         <span class="ident">Hide::new</span>((<span class="ident">item_a</span>.<span class="ident">into_reveal</span>(), <span class="ident">item_b</span>.<span class="ident">into_reveal</span>()))
     }
 }

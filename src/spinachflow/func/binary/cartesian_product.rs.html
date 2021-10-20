@@ -86,9 +86,9 @@
 <span id="86">86</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::iter::FromIterator</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnion</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hide</span>::{<span class="ident">Hide</span>, <span class="ident">Qualifier</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::set_union::SetUnion</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::lattice::LatticeRepr</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::BinaryMorphism</span>;
 
@@ -117,7 +117,7 @@
 {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>
+            <span class="ident">_phantom</span>: <span class="ident">std::marker::PhantomData</span>,
         }
     }
 }
@@ -153,15 +153,15 @@
 
     <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">Y</span>: <span class="ident">Qualifier</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>, <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>
-    )
-        -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span>
-    {
+        <span class="ident">item_a</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprA</span><span class="op">&gt;</span>,
+        <span class="ident">item_b</span>: <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::InLatReprB</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="ident">Hide</span><span class="op">&lt;</span><span class="ident">Y</span>, <span class="ident"><span class="self">Self</span>::OutLatRepr</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">item_a</span>
             .<span class="ident">into_reveal</span>()
             .<span class="ident">into_iter</span>()
             .<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> {
-                <span class="ident">item_b</span>.<span class="ident">clone</span>()
+                <span class="ident">item_b</span>
+                    .<span class="ident">clone</span>()
                     .<span class="ident">into_reveal</span>()
                     .<span class="ident">into_iter</span>()
                     .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">b</span><span class="op">|</span> (<span class="ident">a</span>.<span class="ident">clone</span>(), <span class="ident">b</span>))
@@ -169,7 +169,8 @@
             .<span class="ident">collect</span>();
         <span class="ident">Hide::new</span>(<span class="ident">out</span>)
     }
-}</code></pre></div>
+}
+</code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="spinachflow" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
     <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>
 </body></html>
