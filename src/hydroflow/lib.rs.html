@@ -504,9 +504,21 @@
 <span id="504">504</span>
 <span id="505">505</span>
 <span id="506">506</span>
-</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">handoff</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">feature</span>(<span class="ident">never_type</span>)]</span>
+
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">collections</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">handoff</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
 
 <span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
 <span class="kw">use</span> <span class="ident">std::rc::Rc</span>;
@@ -515,11 +527,11 @@
 <span class="kw">use</span> <span class="ident">slotmap::SlotMap</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tuple_list::tuple_list</span> <span class="kw">as</span> <span class="ident">tl</span>;
 
-<span class="kw">use</span> <span class="ident">handoff::CanReceive</span>;
 <span class="kw">use</span> <span class="ident">handoff::Handoff</span>;
 <span class="kw">use</span> <span class="ident">handoff::HandoffMeta</span>;
 <span class="kw">use</span> <span class="ident">handoff::NullHandoff</span>;
 <span class="kw">use</span> <span class="ident">handoff::VecHandoff</span>;
+<span class="kw">use</span> <span class="ident">handoff</span>::{<span class="ident">CanReceive</span>, <span class="ident">TryCanReceive</span>};
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">OpId</span> <span class="op">=</span> <span class="ident">slotmap::DefaultKey</span>;
 
@@ -532,15 +544,23 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Handoff</span><span class="op">&gt;</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">H</span><span class="op">&gt;</span> {
     <span class="comment">// // TODO: represent backpressure in this return value.</span>
     <span class="comment">// #[allow(clippy::result_unit_err)]</span>
-    <span class="comment">// pub fn try_give(&amp;mut self, item: H::Item) -&gt; Result&lt;(), ()&gt; {</span>
+    <span class="comment">// pub fn give(self, item: H::Item) -&gt; Result&lt;(), ()&gt; {</span>
     <span class="comment">//     (*self.once.get()).borrow_mut().try_give(item)</span>
     <span class="comment">// }</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_give</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">give</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>) -&gt; <span class="ident">T</span>
     <span class="kw">where</span>
         <span class="ident">H</span>: <span class="ident">CanReceive</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">once</span>.<span class="ident">get</span>().<span class="ident">borrow_mut</span>();
-        <span class="op">&lt;</span><span class="ident">H</span> <span class="kw">as</span> <span class="ident">CanReceive</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">borrow</span>, <span class="ident">item</span>)
+        <span class="op">&lt;</span><span class="ident">H</span> <span class="kw">as</span> <span class="ident">CanReceive</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">borrow</span>, <span class="ident">item</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_give</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">H</span>: <span class="ident">TryCanReceive</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">once</span>.<span class="ident">get</span>().<span class="ident">borrow_mut</span>();
+        <span class="op">&lt;</span><span class="ident">H</span> <span class="kw">as</span> <span class="ident">TryCanReceive</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">borrow</span>, <span class="ident">item</span>)
     }
 }
 
@@ -875,14 +895,14 @@
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
     <span class="kw">let</span> <span class="ident">source</span> <span class="op">=</span> <span class="ident">df</span>.<span class="ident">add_source</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">send</span><span class="op">|</span> {
         <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">data</span>.<span class="ident">into_iter</span>() {
-            <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>));
+            <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">x</span>));
         }
     });
 
     <span class="kw">let</span> (<span class="ident">map_in</span>, <span class="ident">map_out</span>) <span class="op">=</span> <span class="ident">df</span>.<span class="ident">add_inout</span>(
         <span class="op">|</span><span class="ident">recv</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">send</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
             <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">recv</span> {
-                <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="number">3</span> <span class="op">*</span> <span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>));
+                <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="number">3</span> <span class="op">*</span> <span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>));
             }
         },
     );
@@ -891,7 +911,7 @@
         <span class="op">|</span><span class="ident">recv</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">send</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
             <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">recv</span> {
                 <span class="kw">if</span> <span class="ident">x</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span> {
-                    <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>));
+                    <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">x</span>));
                 }
             }
         },
@@ -947,7 +967,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">initially_reachable</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">1</span>];
         <span class="kw">let</span> <span class="ident">reachable</span> <span class="op">=</span> <span class="ident">df</span>.<span class="ident">add_source</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">send</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
             <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">initially_reachable</span>.<span class="ident">drain</span>(..) {
-                <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>));
+                <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
             }
         });
 
@@ -956,7 +976,7 @@
             <span class="kw">move</span> <span class="op">|</span><span class="ident">recv</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">send</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
                 <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">recv</span> {
                     <span class="kw">if</span> <span class="ident">seen</span>.<span class="ident">insert</span>(<span class="ident">v</span>) {
-                        <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>));
+                        <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
                     }
                 }
             },
@@ -965,7 +985,7 @@
         <span class="kw">let</span> (<span class="ident">merge_lhs</span>, <span class="ident">merge_rhs</span>, <span class="ident">merge_out</span>) <span class="op">=</span>
             <span class="ident">df</span>.<span class="ident">add_binary</span>(<span class="op">|</span><span class="ident">recv1</span>, <span class="ident">recv2</span>, <span class="ident">send</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
                 <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> (<span class="ident">recv1</span>.<span class="ident">into_iter</span>()).<span class="ident">chain</span>(<span class="ident">recv2</span>.<span class="ident">into_iter</span>()) {
-                    <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>));
+                    <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
                 }
             });
 
@@ -973,7 +993,7 @@
             <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">recv</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">neighbors</span>) <span class="op">=</span> <span class="ident">edges</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>) {
                     <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">n</span> <span class="kw">in</span> <span class="ident">neighbors</span> {
-                        <span class="ident">send</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">n</span>));
+                        <span class="ident">send</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">n</span>));
                     }
                 }
             }
@@ -984,8 +1004,8 @@
              <span class="ident">send1</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>,
              <span class="ident">send2</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">|</span> {
                 <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">recv</span> {
-                    <span class="ident">send1</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>));
-                    <span class="ident">send2</span>.<span class="ident">try_give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>));
+                    <span class="ident">send1</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
+                    <span class="ident">send2</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
                 }
             },
         );
