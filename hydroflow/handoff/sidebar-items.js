@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["NullHandoff","A null handoff which will panic when called."],["VecHandoff","A [VecDeque]-based FIFO handoff."]],"trait":[["Handoff","A trait specifying a handoff point between compiled subgraphs."],["HandoffMeta","A handle onto the metadata part of a [Handoff], with no element type."]]});
+initSidebarItems({"struct":[["NullHandoff",""],["VecHandoff","A [VecDeque]-based FIFO handoff."]],"trait":[["CanReceive",""],["Handoff",""],["HandoffMeta","A handle onto the metadata part of a [Handoff], with no element type."]]});
