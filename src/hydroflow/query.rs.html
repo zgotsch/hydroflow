@@ -152,6 +152,9 @@
 <span id="152">152</span>
 <span id="153">153</span>
 <span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cell::RefCell</span>, <span class="ident">rc::Rc</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">collections::Iter</span>, <span class="ident">handoff::VecHandoff</span>, <span class="ident">Hydroflow</span>, <span class="ident">OutputPort</span>, <span class="ident">RecvCtx</span>, <span class="ident">SendCtx</span>};
@@ -278,32 +281,35 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Clone</span><span class="op">&gt;</span> <span class="ident">Operator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tee</span>(<span class="self">self</span>) -&gt; (<span class="ident">Operator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Operator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tee</span>(<span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Operator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="lifetime">&#39;static</span>,
     {
         <span class="comment">// TODO(justin): this is very slow.</span>
-        <span class="kw">let</span> (<span class="ident">input</span>, <span class="ident">output1</span>, <span class="ident">output2</span>) <span class="op">=</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">df</span>).<span class="ident">borrow_mut</span>().<span class="ident">add_binary_out</span>(
-            <span class="kw">move</span> <span class="op">|</span><span class="ident">recv</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">send1</span>, <span class="ident">send2</span><span class="op">|</span> {
-                <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">recv</span>.<span class="ident">into_iter</span>() {
-                    <span class="ident">send1</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>.<span class="ident">clone</span>()));
-                    <span class="ident">send2</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
+        <span class="kw">let</span> (<span class="ident">inputs</span>, <span class="ident">outputs</span>) <span class="op">=</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">df</span>).<span class="ident">borrow_mut</span>().<span class="ident">add_n_in_m_out</span>(
+            <span class="number">1</span>,
+            <span class="ident">n</span>,
+            <span class="kw">move</span> <span class="op">|</span><span class="ident">recvs</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>], <span class="ident">sends</span><span class="op">|</span> {
+                <span class="comment">// TODO(justin): optimize this (extra clone, etc.).</span>
+                <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">recvs</span>.<span class="ident">into_iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">into_iter</span>() {
+                    <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">sends</span> {
+                        <span class="ident">s</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>.<span class="ident">clone</span>()));
+                    }
                 }
             },
         );
 
-        (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">df</span>).<span class="ident">borrow_mut</span>().<span class="ident">add_edge</span>(<span class="self">self</span>.<span class="ident">output_port</span>, <span class="ident">input</span>);
+        (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">df</span>)
+            .<span class="ident">borrow_mut</span>()
+            .<span class="ident">add_edge</span>(<span class="self">self</span>.<span class="ident">output_port</span>, <span class="ident">inputs</span>.<span class="ident">into_iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>());
 
-        (
-            <span class="ident">Operator</span> {
+        <span class="ident">outputs</span>
+            .<span class="ident">into_iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">output_port</span><span class="op">|</span> <span class="ident">Operator</span> {
                 <span class="ident">df</span>: <span class="self">self</span>.<span class="ident">df</span>.<span class="ident">clone</span>(),
-                <span class="ident">output_port</span>: <span class="ident">output1</span>,
-            },
-            <span class="ident">Operator</span> {
-                <span class="ident">df</span>: <span class="self">self</span>.<span class="ident">df</span>,
-                <span class="ident">output_port</span>: <span class="ident">output2</span>,
-            },
-        )
+                <span class="ident">output_port</span>,
+            })
+            .<span class="ident">collect</span>()
     }
 }
 </code></pre></div>
