@@ -552,6 +552,77 @@
 <span id="552">552</span>
 <span id="553">553</span>
 <span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">feature</span>(<span class="ident">never_type</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">collections</span>;
@@ -765,6 +836,27 @@
     }
 }
 
+<span class="kw">struct</span> <span class="ident">NtoMClosureSubgraph</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>]),
+    <span class="ident">R</span>: <span class="ident">Handoff</span>,
+    <span class="ident">W</span>: <span class="ident">Handoff</span>,
+{
+    <span class="ident">f</span>: <span class="ident">F</span>,
+    <span class="ident">recvs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">sends</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span> <span class="ident">Subgraph</span> <span class="kw">for</span> <span class="ident">NtoMClosureSubgraph</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>]),
+    <span class="ident">R</span>: <span class="ident">Handoff</span>,
+    <span class="ident">W</span>: <span class="ident">Handoff</span>,
+{
+    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        (<span class="self">self</span>.<span class="ident">f</span>)(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">recvs</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">sends</span>)
+    }
+}
+
 <span class="doccomment">/**
  * A Hydroflow graph. Owns, schedules, and runs the compiled subgraphs.
  */</span>
@@ -872,6 +964,56 @@
                 (<span class="ident">subgraph</span>)(<span class="ident">recv</span>, <span class="ident">send1</span>, <span class="ident">send2</span>)
             });
         (<span class="ident">input_port</span>, <span class="ident">output_port1</span>, <span class="ident">output_port2</span>)
+    }
+
+    <span class="doccomment">/**
+     * Adds a new compiled subraph with a variable number of inputs and outputs.
+     */</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_n_in_m_out</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span>, <span class="ident">W</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">n</span>: <span class="ident">usize</span>,
+        <span class="ident">m</span>: <span class="ident">usize</span>,
+        <span class="ident">subgraph</span>: <span class="ident">F</span>,
+    ) -&gt; (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InputPort</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OutputPort</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span>)
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>], <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">SendCtx</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>]),
+        <span class="ident">R</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Handoff</span>,
+        <span class="ident">W</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Handoff</span>,
+    {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">recvs</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input_ports</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input_metas</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
+            <span class="kw">let</span> <span class="ident">handoff</span> <span class="op">=</span> <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">R::default</span>()));
+            <span class="ident">recvs</span>.<span class="ident">push</span>(<span class="ident">RecvCtx</span> {
+                <span class="ident">handoff</span>: <span class="ident">handoff</span>.<span class="ident">clone</span>(),
+            });
+            <span class="ident">input_ports</span>.<span class="ident">push</span>(<span class="ident">InputPort</span> {
+                <span class="ident">handoff</span>: <span class="ident">handoff</span>.<span class="ident">clone</span>(),
+            });
+            <span class="ident">input_metas</span>.<span class="ident">push</span>(<span class="ident">Box::new</span>(<span class="ident">handoff</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">HandoffMeta</span><span class="op">&gt;</span>);
+        }
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sends</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output_ports</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">m</span> {
+            <span class="kw">let</span> (<span class="ident">once_send</span>, <span class="ident">once_recv</span>) <span class="op">=</span> <span class="ident">util::once</span>();
+            <span class="ident">sends</span>.<span class="ident">push</span>(<span class="ident">SendCtx</span> { <span class="ident">once</span>: <span class="ident">once_recv</span> });
+            <span class="ident">output_ports</span>.<span class="ident">push</span>(<span class="ident">OutputPort</span> { <span class="ident">once</span>: <span class="ident">once_send</span> });
+        }
+
+        <span class="self">self</span>.<span class="ident">subgraphs</span>.<span class="ident">insert</span>((
+            <span class="ident">input_metas</span>,
+            <span class="ident">Box::new</span>(<span class="ident">NtoMClosureSubgraph</span> {
+                <span class="ident">f</span>: <span class="ident">subgraph</span>,
+                <span class="ident">recvs</span>,
+                <span class="ident">sends</span>,
+            }),
+        ));
+
+        (<span class="ident">input_ports</span>, <span class="ident">output_ports</span>)
     }
 
     <span class="doccomment">/**
