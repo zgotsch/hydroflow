@@ -159,15 +159,14 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">collections::Iter</span>, <span class="ident">handoff::VecHandoff</span>, <span class="ident">Hydroflow</span>, <span class="ident">OutputPort</span>, <span class="ident">RecvCtx</span>, <span class="ident">SendCtx</span>};
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Query</span> {
     <span class="ident">df</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Hydroflow</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Query</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">Query</span> {
-            <span class="ident">df</span>: <span class="ident">Rc::new</span>(<span class="ident">RefCell::new</span>(<span class="ident">Hydroflow::new</span>())),
-        }
+        <span class="ident">Default::default</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">source</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="ident">Operator</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
@@ -291,6 +290,7 @@
             <span class="ident">n</span>,
             <span class="kw">move</span> <span class="op">|</span><span class="ident">recvs</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">RecvCtx</span><span class="op">&lt;</span><span class="ident">VecHandoff</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>], <span class="ident">sends</span><span class="op">|</span> {
                 <span class="comment">// TODO(justin): optimize this (extra clone, etc.).</span>
+                <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::into_iter_on_ref</span>)]</span>
                 <span class="kw">for</span> <span class="ident">v</span> <span class="kw">in</span> <span class="ident">recvs</span>.<span class="ident">into_iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">into_iter</span>() {
                     <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">sends</span> {
                         <span class="ident">s</span>.<span class="ident">give</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>.<span class="ident">clone</span>()));
