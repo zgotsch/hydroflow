@@ -319,6 +319,35 @@
 <span id="319">319</span>
 <span id="320">320</span>
 <span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Pusherator</span>: <span class="ident">Sized</span> {
@@ -538,6 +567,35 @@
             <span class="ident">out2</span>,
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         }
+    }
+}
+
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TeeN</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">O</span>: <span class="ident">Pusherator</span>,
+    <span class="ident">O::Item</span>: <span class="ident">Clone</span>,
+{
+    <span class="ident">outs</span>: [<span class="ident">O</span>; <span class="ident">N</span>],
+}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">Pusherator</span> <span class="kw">for</span> <span class="ident">TeeN</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="ident">N</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">O</span>: <span class="ident">Pusherator</span>,
+    <span class="ident">O::Item</span>: <span class="ident">Clone</span>,
+{
+    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">O::Item</span>;
+    <span class="kw">fn</span> <span class="ident">give</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident"><span class="self">Self</span>::Item</span>) {
+        <span class="kw">for</span> <span class="ident">out</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">outs</span> {
+            <span class="ident">out</span>.<span class="ident">give</span>(<span class="ident">item</span>.<span class="ident">clone</span>()); <span class="comment">// TODO: benchmark removing last extra clone.</span>
+        }
+    }
+}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span> <span class="ident">TeeN</span><span class="op">&lt;</span><span class="ident">O</span>, <span class="ident">N</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">O</span>: <span class="ident">Pusherator</span>,
+    <span class="ident">O::Item</span>: <span class="ident">Clone</span>,
+{
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">outs</span>: [<span class="ident">O</span>; <span class="ident">N</span>]) -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">outs</span> }
     }
 }
 
