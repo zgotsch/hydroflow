@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Filter",""],["ForEach",""],["Map",""],["Partition",""],["Pivot",""],["Tee",""],["TeeN",""]],"trait":[["Pusherator",""]]});
+initSidebarItems({"struct":[["Filter",""],["ForEach",""],["GroupBy",""],["Map",""],["Partition",""],["Pivot",""],["Tee",""],["TeeN",""]],"trait":[["Pusherator",""]]});

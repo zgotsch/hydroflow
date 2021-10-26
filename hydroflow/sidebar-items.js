@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["compiled",""],["scheduled",""]]});
+initSidebarItems({"mod":[["compiled",""],["lang",""],["scheduled",""]]});
