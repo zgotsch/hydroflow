@@ -770,7 +770,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">right</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pusher</span> <span class="op">=</span> <span class="ident">Map::new</span>(
-            <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">Rc::new</span>(<span class="ident">x</span>),
+            <span class="ident">Rc::new</span>,
             <span class="ident">Tee::new</span>(
                 <span class="ident">ForEach::new</span>(<span class="op">|</span><span class="ident">x</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">|</span> <span class="ident">left</span>.<span class="ident">push</span>(<span class="kw-2">*</span><span class="ident">x</span>)),
                 <span class="ident">ForEach::new</span>(<span class="op">|</span><span class="ident">x</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">|</span> <span class="ident">right</span>.<span class="ident">push</span>(<span class="kw-2">*</span><span class="ident">x</span>)),

@@ -578,12 +578,12 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">q</span> <span class="op">=</span> <span class="ident">Query::new</span>();
 
     <span class="ident">q</span>.<span class="ident">source</span>(<span class="op">|</span><span class="ident">send</span><span class="op">|</span> {
-        <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">1</span> <span class="kw">as</span> <span class="ident">i64</span>, <span class="string">&quot;a&quot;</span>.<span class="ident">to_string</span>()));
+        <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">1_i64</span>, <span class="string">&quot;a&quot;</span>.<span class="ident">to_string</span>()));
         <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">2</span>, <span class="string">&quot;b&quot;</span>.<span class="ident">to_string</span>()));
         <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">3</span>, <span class="string">&quot;c&quot;</span>.<span class="ident">to_string</span>()));
     })
     .<span class="ident">join</span>(<span class="ident">q</span>.<span class="ident">source</span>(<span class="op">|</span><span class="ident">send</span><span class="op">|</span> {
-        <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">1</span> <span class="kw">as</span> <span class="ident">i64</span>, <span class="string">&quot;x&quot;</span>.<span class="ident">to_string</span>()));
+        <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">1_i64</span>, <span class="string">&quot;x&quot;</span>.<span class="ident">to_string</span>()));
         <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">2</span>, <span class="string">&quot;y&quot;</span>.<span class="ident">to_string</span>()));
         <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">2</span>, <span class="string">&quot;y2&quot;</span>.<span class="ident">to_string</span>()));
         <span class="ident">send</span>.<span class="ident">push</span>((<span class="number">3</span>, <span class="string">&quot;z&quot;</span>.<span class="ident">to_string</span>()));
