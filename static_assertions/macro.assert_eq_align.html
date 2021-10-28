@@ -7,7 +7,7 @@ when <a href="https://en.wikipedia.org/wiki/Foreign_function_interface">FFI</a> 
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <p>A <code>usize</code> has the same alignment as any pointer type:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">assert_eq_align!</span>(<span class="ident">usize</span>, <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>);</code></pre></div>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">assert_eq_align!</span>(<span class="ident">usize</span>, <span class="kw-2">*const</span> <span class="ident">u8</span>, <span class="kw-2">*mut</span> <span class="ident">u8</span>);</code></pre></div>
 <p>The following passes because <code>[i32; 4]</code> has the same alignment as <code>i32</code>:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">assert_eq_align!</span>([<span class="ident">i32</span>; <span class="number">4</span>], <span class="ident">i32</span>);</code></pre></div>

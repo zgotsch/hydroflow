@@ -64,7 +64,7 @@
 <span class="comment">//</span>
 <span class="comment">// [Fisher–Yates shuffle]: https://en.wikipedia.org/wiki/Fisher–Yates_shuffle</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shuffle</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>]) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shuffle</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">T</span>]) {
     <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">1</span>..<span class="ident">slice</span>.<span class="ident">len</span>()).<span class="ident">rev</span>() {
         <span class="ident">slice</span>.<span class="ident">swap</span>(<span class="ident">i</span>, <span class="ident">gen_index</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>));
     }

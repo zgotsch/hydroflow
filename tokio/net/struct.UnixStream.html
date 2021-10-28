@@ -41,7 +41,7 @@ splitting.</p>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="number">1024</span>];
             <span class="comment">// Try to read data, this may still fail with `WouldBlock`</span>
             <span class="comment">// if the readiness event is a false positive.</span>
-            <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>) {
+            <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">data</span>) {
                 <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; {
                     <span class="macro">println!</span>(<span class="string">&quot;read {} bytes&quot;</span>, <span class="ident">n</span>);        
                 }
@@ -100,7 +100,7 @@ consumed by an attempt to read that fails with <code>WouldBlock</code> or
 
         <span class="comment">// Try to read data, this may still fail with `WouldBlock`</span>
         <span class="comment">// if the readiness event is a false positive.</span>
-        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">msg</span>) {
+        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">msg</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; {
                 <span class="ident">msg</span>.<span class="ident">truncate</span>(<span class="ident">n</span>);
                 <span class="kw">break</span>;
@@ -172,7 +172,7 @@ and will no longer yield data. If the stream is not ready to read data
 
         <span class="comment">// Try to read data, this may still fail with `WouldBlock`</span>
         <span class="comment">// if the readiness event is a false positive.</span>
-        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
+        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>) {
             <span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">break</span>,
             <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; {
                 <span class="macro">println!</span>(<span class="string">&quot;read {} bytes&quot;</span>, <span class="ident">n</span>);
@@ -225,13 +225,13 @@ and will no longer yield data. If the stream is not ready to read data
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf_a</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">512</span>];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf_b</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">1024</span>];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bufs</span> <span class="op">=</span> [
-            <span class="ident">IoSliceMut::new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf_a</span>),
-            <span class="ident">IoSliceMut::new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf_b</span>),
+            <span class="ident">IoSliceMut::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf_a</span>),
+            <span class="ident">IoSliceMut::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf_b</span>),
         ];
 
         <span class="comment">// Try to read data, this may still fail with `WouldBlock`</span>
         <span class="comment">// if the readiness event is a false positive.</span>
-        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read_vectored</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bufs</span>) {
+        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read_vectored</span>(<span class="kw-2">&amp;mut</span> <span class="ident">bufs</span>) {
             <span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">break</span>,
             <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; {
                 <span class="macro">println!</span>(<span class="string">&quot;read {} bytes&quot;</span>, <span class="ident">n</span>);
@@ -279,7 +279,7 @@ and will no longer yield data. If the stream is not ready to read data
 
         <span class="comment">// Try to read data, this may still fail with `WouldBlock`</span>
         <span class="comment">// if the readiness event is a false positive.</span>
-        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
+        <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">try_read_buf</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>) {
             <span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">break</span>,
             <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; {
                 <span class="macro">println!</span>(<span class="string">&quot;read {} bytes&quot;</span>, <span class="ident">n</span>);
@@ -492,7 +492,7 @@ mode if needed.</p>
     <span class="kw">let</span> (<span class="ident">tokio_unix_stream</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">listener</span>.<span class="ident">accept</span>().<span class="kw">await</span><span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">std_unix_stream</span> <span class="op">=</span> <span class="ident">tokio_unix_stream</span>.<span class="ident">into_std</span>()<span class="question-mark">?</span>;
     <span class="ident">std_unix_stream</span>.<span class="ident">set_nonblocking</span>(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
-    <span class="ident">std_unix_stream</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>)<span class="question-mark">?</span>;
+    <span class="ident">std_unix_stream</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;mut</span> <span class="ident">data</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.pair" class="method has-srclink"><div class="rightside"><a class="srclink" href="../../src/tokio/net/unix/stream.rs.html#762-768" title="goto source code">[src]</a></div><a href="#method.pair" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.pair" class="fnname">pair</a>() -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="struct.UnixStream.html" title="struct tokio::net::UnixStream">UnixStream</a>, <a class="struct" href="struct.UnixStream.html" title="struct tokio::net::UnixStream">UnixStream</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</h4></div></summary><div class="docblock"><p>Creates an unnamed pair of connected sockets.</p>

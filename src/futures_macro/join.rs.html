@@ -201,19 +201,19 @@
     <span class="kw">let</span> <span class="ident">poll_futures</span> <span class="op">=</span> <span class="ident">future_names</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">fut</span><span class="op">|</span> {
         <span class="macro">quote!</span> {
             <span class="ident">__all_done</span> <span class="op">&amp;=</span> <span class="ident">__futures_crate::future::Future::poll</span>(
-                <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }, <span class="ident">__cx</span>).<span class="ident">is_ready</span>();
+                <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }, <span class="ident">__cx</span>).<span class="ident">is_ready</span>();
         }
     });
     <span class="kw">let</span> <span class="ident">take_outputs</span> <span class="op">=</span> <span class="ident">future_names</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">fut</span><span class="op">|</span> {
         <span class="macro">quote!</span> {
-            <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>(),
+            <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>(),
         }
     });
 
     <span class="ident">TokenStream::from</span>(<span class="macro">quote!</span> { {
         #( #<span class="ident">future_let_bindings</span> )<span class="op">*</span>
 
-        <span class="ident">__futures_crate::future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">__cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">__futures_crate::task::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">|</span> {
+        <span class="ident">__futures_crate::future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">__cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">__futures_crate::task::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">__all_done</span> <span class="op">=</span> <span class="bool-val">true</span>;
             #( #<span class="ident">poll_futures</span> )<span class="op">*</span>
             <span class="kw">if</span> <span class="ident">__all_done</span> {
@@ -239,17 +239,17 @@
     <span class="kw">let</span> <span class="ident">poll_futures</span> <span class="op">=</span> <span class="ident">future_names</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">fut</span><span class="op">|</span> {
         <span class="macro">quote!</span> {
             <span class="kw">if</span> <span class="ident">__futures_crate::future::Future::poll</span>(
-                <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }, <span class="ident">__cx</span>).<span class="ident">is_pending</span>()
+                <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }, <span class="ident">__cx</span>).<span class="ident">is_pending</span>()
             {
                 <span class="ident">__all_done</span> <span class="op">=</span> <span class="bool-val">false</span>;
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }.<span class="ident">output_mut</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>() {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }.<span class="ident">output_mut</span>().<span class="ident">unwrap</span>().<span class="ident">is_err</span>() {
                 <span class="comment">// `.err().unwrap()` rather than `.unwrap_err()` so that we don&#39;t introduce</span>
                 <span class="comment">// a `T: Debug` bound.</span>
                 <span class="comment">// Also, for an error type of ! any code after `err().unwrap()` is unreachable.</span>
                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unreachable_code</span>)]</span>
                 <span class="kw">return</span> <span class="ident">__futures_crate::task::Poll::Ready</span>(
                     <span class="ident">__futures_crate::Err</span>(
-                        <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>().<span class="ident">err</span>().<span class="ident">unwrap</span>()
+                        <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>().<span class="ident">err</span>().<span class="ident">unwrap</span>()
                     )
                 );
             }
@@ -261,7 +261,7 @@
             <span class="comment">// an `E: Debug` bound.</span>
             <span class="comment">// Also, for an ok type of ! any code after `ok().unwrap()` is unreachable.</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unreachable_code</span>)]</span>
-            <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>().<span class="ident">ok</span>().<span class="ident">unwrap</span>(),
+            <span class="kw">unsafe</span> { <span class="ident">__futures_crate::Pin::new_unchecked</span>(<span class="kw-2">&amp;mut</span> #<span class="ident">fut</span>) }.<span class="ident">take_output</span>().<span class="ident">unwrap</span>().<span class="ident">ok</span>().<span class="ident">unwrap</span>(),
         }
     });
 
@@ -269,7 +269,7 @@
         #( #<span class="ident">future_let_bindings</span> )<span class="op">*</span>
 
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::diverging_sub_expression</span>)]</span>
-        <span class="ident">__futures_crate::future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">__cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">__futures_crate::task::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">|</span> {
+        <span class="ident">__futures_crate::future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">__cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">__futures_crate::task::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">__all_done</span> <span class="op">=</span> <span class="bool-val">true</span>;
             #( #<span class="ident">poll_futures</span> )<span class="op">*</span>
             <span class="kw">if</span> <span class="ident">__all_done</span> {

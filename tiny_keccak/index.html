@@ -5,7 +5,7 @@
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">32</span>];
 <span class="ident">hasher</span>.<span class="ident">update</span>(<span class="ident">input_a</span>);
 <span class="ident">hasher</span>.<span class="ident">update</span>(<span class="ident">input_b</span>);
-<span class="ident">hasher</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>);</code></pre></div>
+<span class="ident">hasher</span>.<span class="ident">finalize</span>(<span class="kw-2">&amp;mut</span> <span class="ident">output</span>);</code></pre></div>
 <h2 id="credits" class="section-header"><a href="#credits">Credits</a></h2>
 <ul>
 <li><a href="https://github.com/coruus/keccak-tiny"><code>coruus/keccak-tiny</code></a> for C implementation of keccak function</li>

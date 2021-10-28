@@ -6,6 +6,7 @@ sourcesIndex["bytes"] = {"name":"","dirs":[{"name":"buf","files":["buf_impl.rs",
 sourcesIndex["cfg_if"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["const_random"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["const_random_macro"] = {"name":"","files":["lib.rs","span.rs"]};
+sourcesIndex["covid_tracing"] = {"name":"","files":["main.rs"]};
 sourcesIndex["crunchy"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["datadriven"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["either"] = {"name":"","files":["lib.rs"]};

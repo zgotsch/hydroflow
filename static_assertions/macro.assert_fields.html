@@ -29,7 +29,7 @@ result of <code>#[cfg]</code>. This can be an issue when exposing a public API.<
         <span class="ident">name</span>: <span class="ident">String</span>,
         <span class="ident">bytes</span>: [<span class="ident">u8</span>; <span class="number">128</span>],
     },
-    <span class="ident">Ptr</span>(<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>),
+    <span class="ident">Ptr</span>(<span class="kw-2">*const</span> <span class="ident">u8</span>),
 }
 
 <span class="macro">assert_fields!</span>(<span class="ident">Data::Val</span>: <span class="ident">id</span>, <span class="ident">bytes</span>);</code></pre></div>

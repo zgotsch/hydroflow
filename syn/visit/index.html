@@ -7,14 +7,14 @@ by invoking the right visitor method of each of its fields.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> {
     <span class="comment">/* ... */</span>
 
-    <span class="kw">fn</span> <span class="ident">visit_expr_binary</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ExprBinary</span>) {
+    <span class="kw">fn</span> <span class="ident">visit_expr_binary</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ExprBinary</span>) {
         <span class="ident">visit_expr_binary</span>(<span class="self">self</span>, <span class="ident">node</span>);
     }
 
     <span class="comment">/* ... */</span>
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_expr_binary</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">V</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ExprBinary</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_expr_binary</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">v</span>: <span class="kw-2">&amp;mut</span> <span class="ident">V</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ExprBinary</span>)
 <span class="kw">where</span>
     <span class="ident">V</span>: <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
 {
@@ -44,7 +44,7 @@ syntax tree, including nested functions.</p>
 <span class="kw">struct</span> <span class="ident">FnVisitor</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FnVisitor</span> {
-    <span class="kw">fn</span> <span class="ident">visit_item_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ItemFn</span>) {
+    <span class="kw">fn</span> <span class="ident">visit_item_fn</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ItemFn</span>) {
         <span class="macro">println!</span>(<span class="string">&quot;Function with name={}&quot;</span>, <span class="ident">node</span>.<span class="ident">sig</span>.<span class="ident">ident</span>);
 
         <span class="comment">// Delegate to the default impl to visit any nested functions.</span>
@@ -75,7 +75,7 @@ hold on to references into the syntax tree.</p>
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FnVisitor</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">visit_item_fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ItemFn</span>) {
+    <span class="kw">fn</span> <span class="ident">visit_item_fn</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">ItemFn</span>) {
         <span class="self">self</span>.<span class="ident">functions</span>.<span class="ident">push</span>(<span class="ident">node</span>);
         <span class="ident">visit::visit_item_fn</span>(<span class="self">self</span>, <span class="ident">node</span>);
     }

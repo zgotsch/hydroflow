@@ -296,12 +296,12 @@
                     );
                 }
                 <span class="kw">unsafe</span> {
-                    <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">_from</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident"><span class="self">Self</span>::From</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span>)
+                    <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">_from</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident"><span class="self">Self</span>::From</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="self">Self</span>)
                 }
             }
 
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">ref_cast_mut</span>(<span class="ident">_from</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::From</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">ref_cast_mut</span>(<span class="ident">_from</span>: <span class="kw-2">&amp;mut</span> <span class="ident"><span class="self">Self</span>::From</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="self">Self</span> {
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">debug_assertions</span>)]</span>
                 {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
@@ -315,7 +315,7 @@
                     );
                 }
                 <span class="kw">unsafe</span> {
-                    <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="ident">_from</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident"><span class="self">Self</span>::From</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span>)
+                    <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="ident">_from</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident"><span class="self">Self</span>::From</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="self">Self</span>)
                 }
             }
         }
@@ -325,7 +325,7 @@
 <span class="kw">fn</span> <span class="ident">check_repr</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">DeriveInput</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_repr</span> <span class="op">=</span> <span class="bool-val">false</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">errors</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">push_error</span> <span class="op">=</span> <span class="op">|</span><span class="ident">error</span><span class="op">|</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">errors</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">push_error</span> <span class="op">=</span> <span class="op">|</span><span class="ident">error</span><span class="op">|</span> <span class="kw">match</span> <span class="kw-2">&amp;mut</span> <span class="ident">errors</span> {
         <span class="prelude-val">Some</span>(<span class="ident">errors</span>) =&gt; <span class="ident">Error::combine</span>(<span class="ident">errors</span>, <span class="ident">error</span>),
         <span class="prelude-val">None</span> =&gt; <span class="ident">errors</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">error</span>),
     };

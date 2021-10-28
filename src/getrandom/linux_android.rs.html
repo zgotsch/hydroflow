@@ -59,11 +59,11 @@
     {<span class="ident">use_file</span>, <span class="ident">Error</span>},
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">getrandom_inner</span>(<span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">getrandom_inner</span>(<span class="ident">dest</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">static</span> <span class="ident">HAS_GETRANDOM</span>: <span class="ident">LazyBool</span> <span class="op">=</span> <span class="ident">LazyBool::new</span>();
     <span class="kw">if</span> <span class="ident">HAS_GETRANDOM</span>.<span class="ident">unsync_init</span>(<span class="ident">is_getrandom_available</span>) {
         <span class="ident">sys_fill_exact</span>(<span class="ident">dest</span>, <span class="op">|</span><span class="ident">buf</span><span class="op">|</span> <span class="kw">unsafe</span> {
-            <span class="ident">getrandom</span>(<span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">libc::c_void</span>, <span class="ident">buf</span>.<span class="ident">len</span>(), <span class="number">0</span>)
+            <span class="ident">getrandom</span>(<span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">libc::c_void</span>, <span class="ident">buf</span>.<span class="ident">len</span>(), <span class="number">0</span>)
         })
     } <span class="kw">else</span> {
         <span class="ident">use_file::getrandom_inner</span>(<span class="ident">dest</span>)
@@ -84,7 +84,7 @@
 }
 
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">getrandom</span>(
-    <span class="ident">buf</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">libc::c_void</span>,
+    <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">libc::c_void</span>,
     <span class="ident">buflen</span>: <span class="ident">libc::size_t</span>,
     <span class="ident">flags</span>: <span class="ident">libc::c_uint</span>,
 ) -&gt; <span class="ident">libc::ssize_t</span> {

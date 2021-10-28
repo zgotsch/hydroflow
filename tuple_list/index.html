@@ -24,16 +24,16 @@ of arbitrary length, behaving differently depending on element type.</p>
  
 <span class="comment">// Define trait and implement it for several primitive types.</span>
 <span class="kw">trait</span> <span class="ident">PlusOne</span> {
-    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
+    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>);
 }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">i32</span>    { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>; } }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">bool</span>   { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="op">!</span><span class="kw-2">*</span><span class="self">self</span>; } }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">String</span> { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="self">self</span>.<span class="ident">push</span>(<span class="string">&#39;1&#39;</span>); } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">i32</span>    { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>; } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">bool</span>   { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="op">!</span><span class="kw-2">*</span><span class="self">self</span>; } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">String</span> { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="self">self</span>.<span class="ident">push</span>(<span class="string">&#39;1&#39;</span>); } }
  
 <span class="comment">// Now we have to implement trait for an empty tuple,</span>
 <span class="comment">// thus defining initial condition.</span>
 <span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> () {
-    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
+    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {}
 }
  
 <span class="comment">// Now we can implement trait for a non-empty tuple list,</span>
@@ -42,7 +42,7 @@ of arbitrary length, behaving differently depending on element type.</p>
     <span class="ident">Head</span>: <span class="ident">PlusOne</span>,
     <span class="ident">Tail</span>: <span class="ident">PlusOne</span> <span class="op">+</span> <span class="ident">TupleList</span>,
 {
-    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">plus_one</span>();
         <span class="self">self</span>.<span class="number">1</span>.<span class="ident">plus_one</span>();
     }
@@ -321,11 +321,11 @@ to modify regular tuples:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="comment">// Define trait and implement it for several primitive types.</span>
 <span class="kw">trait</span> <span class="ident">PlusOne</span> {
-    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
+    <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>);
 }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">i32</span>    { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>; } }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">bool</span>   { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="op">!</span><span class="kw-2">*</span><span class="self">self</span>; } }
-<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">String</span> { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) { <span class="self">self</span>.<span class="ident">push</span>(<span class="string">&#39;1&#39;</span>); } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">i32</span>    { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>; } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">bool</span>   { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="op">!</span><span class="kw-2">*</span><span class="self">self</span>; } }
+<span class="kw">impl</span> <span class="ident">PlusOne</span> <span class="kw">for</span> <span class="ident">String</span> { <span class="kw">fn</span> <span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) { <span class="self">self</span>.<span class="ident">push</span>(<span class="string">&#39;1&#39;</span>); } }
  
 <span class="comment">// Now we have to define a new trait</span>
 <span class="comment">// specifically for tuple lists of references.</span>
@@ -347,7 +347,7 @@ to modify regular tuples:</p>
 <span class="comment">// Note that we&#39;re implementing `PlusOneTupleList` for</span>
 <span class="comment">// *tuple list of mutable references*, and as a result</span>
 <span class="comment">// head of the list is a mutable reference, not a value.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Head</span>, <span class="ident">Tail</span><span class="op">&gt;</span> <span class="ident">PlusOneTupleList</span> <span class="kw">for</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Head</span>, <span class="ident">Tail</span>) <span class="kw">where</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Head</span>, <span class="ident">Tail</span><span class="op">&gt;</span> <span class="ident">PlusOneTupleList</span> <span class="kw">for</span> (<span class="kw-2">&amp;mut</span> <span class="ident">Head</span>, <span class="ident">Tail</span>) <span class="kw">where</span>
     <span class="self">Self</span>: <span class="ident">TupleList</span>,
     <span class="ident">Head</span>: <span class="ident">PlusOne</span>,
     <span class="ident">Tail</span>: <span class="ident">PlusOneTupleList</span>,
@@ -370,7 +370,7 @@ to modify regular tuples:</p>
  
 <span class="comment">// Now we can use this helper function on regular tuples.</span>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tuple</span> <span class="op">=</span> (<span class="number">2</span>, <span class="bool-val">false</span>, <span class="ident">String::from</span>(<span class="string">&quot;abc&quot;</span>));
-<span class="ident">plus_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">tuple</span>);
+<span class="ident">plus_one</span>(<span class="kw-2">&amp;mut</span> <span class="ident">tuple</span>);
  
 <span class="macro">assert_eq!</span>(<span class="ident">tuple</span>.<span class="number">0</span>, <span class="number">3</span>);
 <span class="macro">assert_eq!</span>(<span class="ident">tuple</span>.<span class="number">1</span>, <span class="bool-val">true</span>);

@@ -1147,17 +1147,17 @@
     <span class="kw">let</span> <span class="ident">ty_generics</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>().<span class="number">1</span>;
     <span class="kw">let</span> <span class="ident">self_ty</span> <span class="op">=</span> <span class="macro">parse_quote!</span>(#<span class="ident">ident</span> #<span class="ident">ty_generics</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">visitor</span> <span class="op">=</span> <span class="ident">ReplaceReceiver</span>(<span class="kw-2">&amp;</span><span class="ident">self_ty</span>);
-    <span class="ident">visitor</span>.<span class="ident">visit_generics_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">input</span>.<span class="ident">generics</span>);
-    <span class="ident">visitor</span>.<span class="ident">visit_data_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">input</span>.<span class="ident">data</span>);
+    <span class="ident">visitor</span>.<span class="ident">visit_generics_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">input</span>.<span class="ident">generics</span>);
+    <span class="ident">visitor</span>.<span class="ident">visit_data_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">input</span>.<span class="ident">data</span>);
 
     <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">data</span> {
         <span class="ident">Data::Struct</span>(<span class="ident">data</span>) =&gt; {
-            <span class="ident">cx</span> <span class="op">=</span> <span class="ident">Context::new</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">attrs</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">vis</span>, <span class="ident">ident</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">input</span>.<span class="ident">generics</span>, <span class="ident">Struct</span>)<span class="question-mark">?</span>;
-            <span class="ident">parse_struct</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cx</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">fields</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">generate</span>)<span class="question-mark">?</span>;
+            <span class="ident">cx</span> <span class="op">=</span> <span class="ident">Context::new</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">attrs</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">vis</span>, <span class="ident">ident</span>, <span class="kw-2">&amp;mut</span> <span class="ident">input</span>.<span class="ident">generics</span>, <span class="ident">Struct</span>)<span class="question-mark">?</span>;
+            <span class="ident">parse_struct</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cx</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">fields</span>, <span class="kw-2">&amp;mut</span> <span class="ident">generate</span>)<span class="question-mark">?</span>;
         }
         <span class="ident">Data::Enum</span>(<span class="ident">data</span>) =&gt; {
-            <span class="ident">cx</span> <span class="op">=</span> <span class="ident">Context::new</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">attrs</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">vis</span>, <span class="ident">ident</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">input</span>.<span class="ident">generics</span>, <span class="ident">Enum</span>)<span class="question-mark">?</span>;
-            <span class="ident">parse_enum</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cx</span>, <span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">generate</span>)<span class="question-mark">?</span>;
+            <span class="ident">cx</span> <span class="op">=</span> <span class="ident">Context::new</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">attrs</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">vis</span>, <span class="ident">ident</span>, <span class="kw-2">&amp;mut</span> <span class="ident">input</span>.<span class="ident">generics</span>, <span class="ident">Enum</span>)<span class="question-mark">?</span>;
+            <span class="ident">parse_enum</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cx</span>, <span class="ident">data</span>, <span class="kw-2">&amp;mut</span> <span class="ident">generate</span>)<span class="question-mark">?</span>;
         }
         <span class="ident">Data::Union</span>(<span class="kw">_</span>) =&gt; {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error!</span>(
@@ -1177,7 +1177,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">GenerateTokens</span> {
-    <span class="kw">fn</span> <span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">expose</span>: <span class="ident">bool</span>, <span class="ident">tokens</span>: <span class="ident">TokenStream</span>) {
+    <span class="kw">fn</span> <span class="ident">extend</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">expose</span>: <span class="ident">bool</span>, <span class="ident">tokens</span>: <span class="ident">TokenStream</span>) {
         <span class="kw">if</span> <span class="ident">expose</span> {
             <span class="self">self</span>.<span class="ident">exposed</span>.<span class="ident">extend</span>(<span class="ident">tokens</span>);
         } <span class="kw">else</span> {
@@ -1314,14 +1314,14 @@
         }
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lifetime_name</span> <span class="op">=</span> <span class="ident">String::from</span>(<span class="string">&quot;&#39;pin&quot;</span>);
-        <span class="ident">determine_lifetime_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">lifetime_name</span>, <span class="ident">generics</span>);
+        <span class="ident">determine_lifetime_name</span>(<span class="kw-2">&amp;mut</span> <span class="ident">lifetime_name</span>, <span class="ident">generics</span>);
         <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="ident">Lifetime::new</span>(<span class="kw-2">&amp;</span><span class="ident">lifetime_name</span>, <span class="ident">Span::call_site</span>());
 
         <span class="kw">let</span> <span class="ident">ty_generics</span> <span class="op">=</span> <span class="ident">generics</span>.<span class="ident">split_for_impl</span>().<span class="number">1</span>;
         <span class="kw">let</span> <span class="ident">ty_generics_as_generics</span> <span class="op">=</span> <span class="macro">parse_quote!</span>(#<span class="ident">ty_generics</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_generics</span> <span class="op">=</span> <span class="ident">generics</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">pred</span> <span class="op">=</span> <span class="ident">insert_lifetime_and_bound</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">proj_generics</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">proj_generics</span>,
             <span class="ident">lifetime</span>.<span class="ident">clone</span>(),
             <span class="kw-2">&amp;</span><span class="ident">ty_generics_as_generics</span>,
             <span class="ident">ident</span>,
@@ -1447,9 +1447,9 @@
 }
 
 <span class="kw">fn</span> <span class="ident">parse_struct</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Fields</span>,
-    <span class="ident">generate</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GenerateTokens</span>,
+    <span class="ident">generate</span>: <span class="kw-2">&amp;mut</span> <span class="ident">GenerateTokens</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Do this first for a better error message.</span>
     <span class="kw">let</span> <span class="ident">packed_check</span> <span class="op">=</span> <span class="ident">ensure_not_packed</span>(<span class="kw-2">&amp;</span><span class="ident">cx</span>.<span class="ident">orig</span>, <span class="prelude-val">Some</span>(<span class="ident">fields</span>))<span class="question-mark">?</span>;
@@ -1519,7 +1519,7 @@
         #<span class="ident">proj_ref_ident</span> #<span class="ident">proj_body</span>
     };
     <span class="kw">let</span> <span class="ident">proj_own_body</span> <span class="op">=</span> <span class="macro">quote!</span> {
-        <span class="kw">let</span> <span class="self">Self</span> #<span class="ident">proj_pat</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">__self_ptr</span>;
+        <span class="kw">let</span> <span class="self">Self</span> #<span class="ident">proj_pat</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">__self_ptr</span>;
         #<span class="ident">proj_own_body</span>
     };
     <span class="ident">generate</span>.<span class="ident">extend</span>(<span class="bool-val">false</span>, <span class="ident">make_proj_impl</span>(<span class="ident">cx</span>, <span class="kw-2">&amp;</span><span class="ident">proj_mut_body</span>, <span class="kw-2">&amp;</span><span class="ident">proj_ref_body</span>, <span class="kw-2">&amp;</span><span class="ident">proj_own_body</span>));
@@ -1529,9 +1529,9 @@
 }
 
 <span class="kw">fn</span> <span class="ident">parse_enum</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">DataEnum</span> { <span class="ident">brace_token</span>, <span class="ident">variants</span>, .. }: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">DataEnum</span>,
-    <span class="ident">generate</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GenerateTokens</span>,
+    <span class="ident">generate</span>: <span class="kw-2">&amp;mut</span> <span class="ident">GenerateTokens</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ProjReplace::Unnamed</span> { <span class="ident">span</span> } <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cx</span>.<span class="ident">project_replace</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error::new</span>(
@@ -1604,7 +1604,7 @@
         }
     };
     <span class="kw">let</span> <span class="ident">proj_own_body</span> <span class="op">=</span> <span class="macro">quote!</span> {
-        <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">__self_ptr</span> {
+        <span class="kw">match</span> <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">__self_ptr</span> {
             #<span class="ident">proj_own_arms</span>
         }
     };
@@ -1613,7 +1613,7 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn</span> <span class="ident">visit_variants</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Variants</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedVariants</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">visit_variants</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Variants</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedVariants</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_variants</span> <span class="op">=</span> <span class="ident">TokenStream::new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_ref_variants</span> <span class="op">=</span> <span class="ident">TokenStream::new</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_own_variants</span> <span class="op">=</span> <span class="ident">TokenStream::new</span>();
@@ -1671,7 +1671,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">visit_fields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">variant_ident</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Ident</span><span class="op">&gt;</span>,
     <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Fields</span>,
     <span class="ident">delim</span>: <span class="ident">Delimiter</span>,
@@ -1968,7 +1968,7 @@
             <span class="kw">impl</span> #<span class="ident">impl_generics</span> <span class="ident">::pin_project::__private::Drop</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_generics</span>
             #<span class="ident">where_clause</span>
             {
-                <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+                <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
                     #<span class="ident">unsafety</span> {
                         <span class="comment">// Safety - we&#39;re in &#39;drop&#39;, so we know that &#39;self&#39; will</span>
                         <span class="comment">// never move again.</span>
@@ -2025,7 +2025,7 @@
             <span class="kw">impl</span> #<span class="ident">impl_generics</span> <span class="ident">::pin_project::__private::PinnedDrop</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_generics</span>
             #<span class="ident">where_clause</span>
             {
-                <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">drop</span>(<span class="self">self</span>: <span class="ident">::pin_project::__private::Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) {}
+                <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">drop</span>(<span class="self">self</span>: <span class="ident">::pin_project::__private::Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>) {}
             }
         }
     }
@@ -2077,14 +2077,14 @@
         <span class="comment">// It is enough to only set the span of the signature.</span>
         <span class="kw">let</span> <span class="ident">sig</span> <span class="op">=</span> <span class="macro">quote_spanned!</span> { <span class="ident">span</span> =&gt;
             #<span class="ident">vis</span> <span class="kw">fn</span> <span class="ident">project_replace</span>(
-                <span class="self">self</span>: <span class="ident">::pin_project::__private::Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
+                <span class="self">self</span>: <span class="ident">::pin_project::__private::Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
                 <span class="ident">__replacement</span>: <span class="self">Self</span>,
             ) -&gt; #<span class="ident">proj_own_ident</span> #<span class="ident">orig_ty_generics</span>
         };
         <span class="macro">quote!</span> {
             #<span class="ident">sig</span> {
                 <span class="kw">unsafe</span> {
-                    <span class="kw">let</span> <span class="ident">__self_ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="self">Self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_unchecked_mut</span>();
+                    <span class="kw">let</span> <span class="ident">__self_ptr</span>: <span class="kw-2">*mut</span> <span class="self">Self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_unchecked_mut</span>();
 
                     <span class="comment">// Destructors will run in reverse order, so next create a guard to overwrite</span>
                     <span class="comment">// `self` with the replacement value without calling destructors.</span>

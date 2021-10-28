@@ -334,8 +334,8 @@
                 <span class="ident">raw_fd</span>,
                 <span class="ident">SOL_SOCKET</span>,
                 <span class="ident">SO_PEERCRED</span>,
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ucred</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">ucred</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>,
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ucred_size</span>,
+                <span class="kw-2">&amp;mut</span> <span class="ident">ucred</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">ucred</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
+                <span class="kw-2">&amp;mut</span> <span class="ident">ucred_size</span>,
             );
             <span class="kw">if</span> <span class="ident">ret</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">ucred_size</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">ucred</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident"><span class="kw">super</span>::UCred</span> {
@@ -376,8 +376,8 @@
                 <span class="ident">raw_fd</span>,
                 <span class="ident">SOL_SOCKET</span>,
                 <span class="ident">LOCAL_PEEREID</span>,
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">unpcbid</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">unpcbid</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>,
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">unpcbid_size</span>,
+                <span class="kw-2">&amp;mut</span> <span class="ident">unpcbid</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">unpcbid</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
+                <span class="kw-2">&amp;mut</span> <span class="ident">unpcbid_size</span>,
             );
             <span class="kw">if</span> <span class="ident">ret</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">unpcbid_size</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">unpcbid</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident"><span class="kw">super</span>::UCred</span> {
@@ -446,7 +446,7 @@
                 <span class="ident">raw_fd</span>,
                 <span class="ident">SOL_LOCAL</span>,
                 <span class="ident">LOCAL_PEEREPID</span>,
-                <span class="ident">pid</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>,
+                <span class="ident">pid</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
                 <span class="ident">pid_size</span>.<span class="ident">as_mut_ptr</span>(),
             ) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
             {
@@ -482,7 +482,7 @@
             <span class="kw">let</span> <span class="ident">raw_fd</span> <span class="op">=</span> <span class="ident">sock</span>.<span class="ident">as_raw_fd</span>();
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cred</span> <span class="op">=</span> <span class="ident">ptr::null_mut</span>();
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">libc::getpeerucred</span>(<span class="ident">raw_fd</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cred</span>);
+            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">libc::getpeerucred</span>(<span class="ident">raw_fd</span>, <span class="kw-2">&amp;mut</span> <span class="ident">cred</span>);
 
             <span class="kw">if</span> <span class="ident">ret</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">uid</span> <span class="op">=</span> <span class="ident">libc::ucred_geteuid</span>(<span class="ident">cred</span>);
