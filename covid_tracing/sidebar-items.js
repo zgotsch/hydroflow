@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main",""]]});
+initSidebarItems({"constant":[["TRANSMISSIBLE_DURATION",""]],"fn":[["main",""]]});
