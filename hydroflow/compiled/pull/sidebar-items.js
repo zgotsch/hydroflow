@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SymmetricHashJoin",""]]});
+initSidebarItems({"struct":[["JoinState",""],["SymmetricHashJoin",""]]});
