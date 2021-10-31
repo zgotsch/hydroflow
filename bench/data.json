@@ -1,5 +1,5 @@
 {
-  "lastUpdate": 1635565697727,
+  "lastUpdate": 1635652084445,
   "repoUrl": "https://github.com/hydro-project/hydroflow",
   "entries": {
     "Benchmark": [
@@ -303,6 +303,82 @@
             "name": "reachability/hydroflow",
             "value": 2715808,
             "range": "± 116018",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mingwei Samuel",
+            "username": "MingweiSamuel",
+            "email": "mingwei.samuel@gmail.com"
+          },
+          "committer": {
+            "name": "Mingwei Samuel",
+            "username": "MingweiSamuel",
+            "email": "mingwei.samuel@gmail.com"
+          },
+          "id": "8399cf953a2563110977cd61c750fe8308f54a92",
+          "message": "Implement reachability/hydroflow (scheduled + compiled) benchmark",
+          "timestamp": "2021-10-30T00:39:34Z",
+          "url": "https://github.com/hydro-project/hydroflow/commit/8399cf953a2563110977cd61c750fe8308f54a92"
+        },
+        "date": 1635652084444,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "arithmetic/hydroflow/compiled",
+            "value": 375761,
+            "range": "± 2816",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "fan_in/hydroflow",
+            "value": 202092415,
+            "range": "± 563865",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "fan_out/hydroflow/scheduled",
+            "value": 193003411,
+            "range": "± 2192581",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "fork_join/hydroflow",
+            "value": 9431773,
+            "range": "± 15649",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "fork_join/hydroflow_builder",
+            "value": 47063629,
+            "range": "± 188646",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "identity/hydroflow",
+            "value": 48263527,
+            "range": "± 355608",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "identity/hydroflow/compiled",
+            "value": 14681844,
+            "range": "± 7898",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "reachability/hydroflow/scheduled",
+            "value": 2564455,
+            "range": "± 3510",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "reachability/hydroflow",
+            "value": 2576607,
+            "range": "± 2895",
             "unit": "ns/iter"
           }
         ]
