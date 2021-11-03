@@ -13,6 +13,7 @@ use hydroflow::{tl, tlt};
 const TRANSMISSIBLE_DURATION: usize = 14;
 
 fn main() {
+    /*
     type Pid = &'static str;
     type Phone = &'static str;
     type DateTime = usize;
@@ -149,4 +150,5 @@ fn main() {
     while is_done.try_send(()).is_err() {
         df.tick();
     }
+    */
 }

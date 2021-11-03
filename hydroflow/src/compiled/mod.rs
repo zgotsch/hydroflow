@@ -5,11 +5,11 @@ use crate::lang::Lattice;
 
 pub trait Pusherator: Sized {
     type Item;
-    fn give(&mut self, item: Self::Item);
+    fn give(&mut self, item: &Self::Item);
 
     fn map<F, T>(self, f: F) -> Map<T, Self::Item, F, Self>
     where
-        F: Fn(T) -> Self::Item,
+        F: Fn(&T) -> Self::Item,
     {
         Map::new(f, self)
     }
@@ -34,7 +34,7 @@ where
 
     pub fn step(&mut self) -> bool {
         if let Some(v) = self.pull.next() {
-            self.push.give(v);
+            self.push.give(&v);
             true
         } else {
             false
@@ -43,7 +43,7 @@ where
 
     pub fn run(mut self) {
         for v in self.pull.by_ref() {
-            self.push.give(v);
+            self.push.give(&v);
         }
     }
 }
@@ -64,12 +64,12 @@ where
     O: Pusherator<Item = (K, V)>,
 {
     type Item = (K, V);
-    fn give(&mut self, item: Self::Item) {
+    fn give(&mut self, item: &Self::Item) {
         // TODO(justin): we need a more coherent understanding of time in order
         // to not emit a ton of extra stuff here.
         if let Some(v) = self.contents.get_mut(&item.0) {
             if v.join(&item.1) {
-                self.out.give((item.0, v.clone()));
+                self.out.give(&(item.0.clone(), v.clone()));
             }
         } else {
             self.contents.insert(item.0.clone(), item.1.clone());
@@ -93,23 +93,23 @@ where
 
 pub struct ForEach<T, F>
 where
-    F: FnMut(T),
+    F: FnMut(&T),
 {
     f: F,
     _marker: PhantomData<T>,
 }
 impl<T, F> Pusherator for ForEach<T, F>
 where
-    F: FnMut(T),
+    F: FnMut(&T),
 {
     type Item = T;
-    fn give(&mut self, item: Self::Item) {
+    fn give(&mut self, item: &Self::Item) {
         (self.f)(item)
     }
 }
 impl<T, F> ForEach<T, F>
 where
-    F: FnMut(T),
+    F: FnMut(&T),
 {
     pub fn new(f: F) -> Self {
         ForEach {
@@ -121,7 +121,7 @@ where
 
 pub struct Map<T, U, F, O>
 where
-    F: Fn(T) -> U,
+    F: Fn(&T) -> U,
     O: Pusherator<Item = U>,
 {
     out: O,
@@ -130,17 +130,17 @@ where
 }
 impl<T, U, F, O> Pusherator for Map<T, U, F, O>
 where
-    F: Fn(T) -> U,
+    F: Fn(&T) -> U,
     O: Pusherator<Item = U>,
 {
     type Item = T;
-    fn give(&mut self, item: Self::Item) {
-        self.out.give((self.f)(item));
+    fn give(&mut self, item: &Self::Item) {
+        self.out.give(&(self.f)(item));
     }
 }
 impl<T, U, F, O> Map<T, U, F, O>
 where
-    F: Fn(T) -> U,
+    F: Fn(&T) -> U,
     O: Pusherator<Item = U>,
 {
     pub fn new(f: F, out: O) -> Self {
@@ -167,7 +167,7 @@ where
     O: Pusherator<Item = T>,
 {
     type Item = T;
-    fn give(&mut self, item: Self::Item) {
+    fn give(&mut self, item: &Self::Item) {
         if (self.f)(&item) {
             self.out.give(item);
         }
@@ -205,8 +205,8 @@ where
     O2: Pusherator<Item = T>,
 {
     type Item = T;
-    fn give(&mut self, item: Self::Item) {
-        if (self.f)(&item) {
+    fn give(&mut self, item: &Self::Item) {
+        if (self.f)(item) {
             self.out1.give(item);
         } else {
             self.out2.give(item);
@@ -246,8 +246,8 @@ where
     O2: Pusherator<Item = T>,
 {
     type Item = T;
-    fn give(&mut self, item: Self::Item) {
-        self.out1.give(item.clone());
+    fn give(&mut self, item: &Self::Item) {
+        self.out1.give(item);
         self.out2.give(item);
     }
 }
@@ -279,9 +279,9 @@ where
     O::Item: Clone,
 {
     type Item = O::Item;
-    fn give(&mut self, item: Self::Item) {
+    fn give(&mut self, item: &Self::Item) {
         for out in &mut self.outs {
-            out.give(item.clone()); // TODO: benchmark removing last extra clone.
+            out.give(item); // TODO: benchmark removing last extra clone.
         }
     }
 }
